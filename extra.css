@@ -1,0 +1,311 @@
+
+.image-flip:hover .backside{
+    -webkit-transform: rotateY(0deg);
+    -moz-transform: rotateY(0deg);
+    -o-transform: rotateY(0deg);
+    -ms-transform: rotateY(0deg);
+    transform: rotateY(0deg);
+    border-radius: .25rem;
+}
+
+.flip-0{
+    -webkit-transform: rotateY(0deg);
+    -moz-transform: rotateY(0deg);
+    -o-transform: rotateY(0deg);
+    -ms-transform: rotateY(0deg);
+    transform: rotateY(0deg);
+}
+
+.image-flip:hover .frontside{
+    -webkit-transform: rotateY(180deg);
+    -moz-transform: rotateY(180deg);
+    -o-transform: rotateY(180deg);
+    transform: rotateY(180deg);
+}
+
+.flip-180{
+    -webkit-transform: rotateY(180deg);
+    -moz-transform: rotateY(180deg);
+    -o-transform: rotateY(180deg);
+    transform: rotateY(180deg);
+}
+
+.mainflip {
+    -webkit-transition: 1s;
+    -webkit-transform-style: preserve-3d;
+    -ms-transition: 1s;
+    -moz-transition: 1s;
+    -moz-transform: perspective(1000px);
+    -moz-transform-style: preserve-3d;
+    -ms-transform-style: preserve-3d;
+    transition: 1s;
+    transform-style: preserve-3d;
+    position: relative;
+}
+
+.frontside {
+    position: relative;
+    -webkit-transform: rotateY(0deg);
+    -ms-transform: rotateY(0deg);
+    z-index: 2;
+    margin-bottom: 30px;
+}
+
+.backside {
+    position: absolute;
+    top: 0;
+    left: 0;
+    background: white;
+    -webkit-transform: rotateY(-180deg);
+    -moz-transform: rotateY(-180deg);
+    -o-transform: rotateY(-180deg);
+    -ms-transform: rotateY(-180deg);
+    transform: rotateY(-180deg);
+    -webkit-box-shadow: 5px 7px 9px -4px rgb(158, 158, 158);
+    -moz-box-shadow: 5px 7px 9px -4px rgb(158, 158, 158);
+    box-shadow: 5px 7px 9px -4px rgb(158, 158, 158);
+}
+
+.frontside,
+.backside {
+    -webkit-backface-visibility: hidden;
+    -moz-backface-visibility: hidden;
+    -ms-backface-visibility: hidden;
+    backface-visibility: hidden;
+    -webkit-transition: 1s;
+    -webkit-transform-style: preserve-3d;
+    -moz-transition: 1s;
+    -moz-transform-style: preserve-3d;
+    -o-transition: 1s;
+    -o-transform-style: preserve-3d;
+    -ms-transition: 1s;
+    -ms-transform-style: preserve-3d;
+    transition: 1s;
+    transform-style: preserve-3d;
+}
+
+.frontside .card,
+.backside .card {
+    min-height: 312px;
+}
+
+.backside .card a {
+    font-size: 18px;
+    color: #007b5e !important;
+}
+
+.frontside .card .card-title,
+.backside .card .card-title {
+    color: #007b5e !important;
+}
+
+.frontside .card .card-body img {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+}
+
+body {
+    padding: 10px 0;
+    background-color: #f4f4f4;
+    font-family: 'Montserrat', sans-serif;
+  }
+  a {
+    text-decoration: none;
+    transition: all 0.3s ease-in-out;
+  }
+  a:hover,
+  a:focus,
+  a:active {
+    text-decoration: none;
+  }
+  .btn {
+    text-transform: uppercase;
+  }
+  .btn.btn-lg {
+    padding: 6px 30px;
+  }
+  .thumbnail-title {
+    font-size: 20px;
+    margin-top: 5px;
+  }
+
+  .img-thumb-bg {
+    padding: 0;
+    overflow: hidden;
+    min-height: 200px;
+    position: relative;
+    border-radius: 3px;
+    background-position: center;
+    background-color: transparent;
+    background-image: url("./img/e.jpg");
+  }
+
+  .img-thumb-bg p {
+    color: #fff;
+    margin-bottom: 0;
+    line-height: 16px;
+  }
+
+  .img-thumb-bg .overlay {
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    position: absolute;
+    transition: all 0.3s ease-in-out;
+    background: rgba(0, 0, 0, 0);
+    background: -o-linear-gradient(top, rgba(0, 0, 0, 0) 50%, #000000 100%);
+    background: -ms-linear-gradient(top, rgba(0, 0, 0, 0) 50%, #000000 100%);
+    background: -moz-linear-gradient(top, rgba(0, 0, 0, 0) 50%, #000000 100%);
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 0) 50%, #000000 100%);
+    background: -webkit-linear-gradient(top, rgba(0, 0, 0, 0) 50%, #000000 100%);
+    background: -webkit-gradient(left top, left bottom, color-stop(50%, rgba(0, 0, 0, 0)), color-stop(100%, #000000));
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#000000', endColorstr='#000000', GradientType=0);
+  }
+  .img-thumb-bg .caption {
+    bottom: -5px;
+    height: 100px;
+    font-size: 12px;
+    position: absolute;
+    padding: 0 20px 20px;
+    transition: all 0.3s ease-in-out;
+  }
+  .img-thumb-bg .caption .tag a {
+    color: #fff;
+    padding: 0 5px;
+    font-size: 12px;
+    border-radius: 2px;
+    display: inline-block;
+    text-transform: uppercase;
+    background-color: #2980B9;
+  }
+  .img-thumb-bg .caption .title {
+    margin-top: 5px;
+    font-size: 18px;
+    line-height: 20px;
+    text-transform: uppercase;
+  }
+  .img-thumb-bg .caption .title a {
+    color: #fff;
+  }
+  .img-thumb-bg .caption .title a:hover {
+    color: #2980B9;
+  }
+  .img-thumb-bg .caption .meta-data {
+    color: #777;
+    font-size: 12px;
+    line-height: 12px;
+    margin-bottom: 15px;
+  }
+  .img-thumb-bg .caption .meta-data a {
+    color: #777;
+  }
+  .img-thumb-bg .caption .meta-data a .fa {
+    color: #2980B9;
+  }
+  .img-thumb-bg .caption .meta-data a:hover {
+    color: #2980B9;
+  }
+  .img-thumb-bg .caption .content {
+    display: none;
+  }
+  .img-thumb-bg:hover .overlay {
+    background: rgba(46, 49, 58, 0.8);
+  }
+  .img-thumb-bg:hover .caption {
+    bottom: 60px;
+  }
+  .img-thumb-bg:hover .caption .content {
+    display: block;
+  }
+
+  .img-thumb1-bg {
+    padding: 0;
+    overflow: hidden;
+    min-height: 200px;
+    position: relative;
+    border-radius: 3px;
+    background-position: center;
+    background-color: transparent;
+    background-image: url("./img/j.jpg");
+  }
+
+  .img-thumb1-bg p {
+    color: #fff;
+    margin-bottom: 0;
+    line-height: 16px;
+  }
+
+  .img-thumb1-bg .overlay {
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    position: absolute;
+    transition: all 0.3s ease-in-out;
+    background: rgba(0, 0, 0, 0);
+    background: -o-linear-gradient(top, rgba(0, 0, 0, 0) 50%, #000000 100%);
+    background: -ms-linear-gradient(top, rgba(0, 0, 0, 0) 50%, #000000 100%);
+    background: -moz-linear-gradient(top, rgba(0, 0, 0, 0) 50%, #000000 100%);
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 0) 50%, #000000 100%);
+    background: -webkit-linear-gradient(top, rgba(0, 0, 0, 0) 50%, #000000 100%);
+    background: -webkit-gradient(left top, left bottom, color-stop(50%, rgba(0, 0, 0, 0)), color-stop(100%, #000000));
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#000000', endColorstr='#000000', GradientType=0);
+  }
+  .img-thumb1-bg .caption {
+    bottom: -5px;
+    height: 100px;
+    font-size: 12px;
+    position: absolute;
+    padding: 0 20px 20px;
+    transition: all 0.3s ease-in-out;
+  }
+  .img-thumb1-bg .caption .tag a {
+    color: #fff;
+    padding: 0 5px;
+    font-size: 12px;
+    border-radius: 2px;
+    display: inline-block;
+    text-transform: uppercase;
+    background-color: #2980B9;
+  }
+  .img-thumb1-bg .caption .title {
+    margin-top: 5px;
+    font-size: 18px;
+    line-height: 20px;
+    text-transform: uppercase;
+  }
+  .img-thumb1-bg .caption .title a {
+    color: #fff;
+  }
+  .img-thumb1-bg .caption .title a:hover {
+    color: #2980B9;
+  }
+  .img-thumb1-bg .caption .meta-data {
+    color: #777;
+    font-size: 12px;
+    line-height: 12px;
+    margin-bottom: 15px;
+  }
+  .img-thumb1-bg .caption .meta-data a {
+    color: #777;
+  }
+  .img-thumb1-bg .caption .meta-data a .fa {
+    color: #2980B9;
+  }
+  .img-thumb1-bg .caption .meta-data a:hover {
+    color: #2980B9;
+  }
+  .img-thumb1-bg .caption .content {
+    display: none;
+  }
+  .img-thumb1-bg:hover .overlay {
+    background: rgba(46, 49, 58, 0.8);
+  }
+  .img-thumb1-bg:hover .caption {
+    bottom: 60px;
+  }
+  .img-thumb1-bg:hover .caption .content {
+    display: block;
+  }
