@@ -70,8 +70,33 @@ if(isset($_POST['submit']))
 
     $sql="SELECT * FROM usuario WHERE usuario='$usuario' AND password='$password'";
         $resultado=mysqli_query($conectar,$sql);
+
+        //verifico si es un administrador primero
+        $res=mysqli_fetch_array($resultado,MYSQLI_ASSOC);
+        if($res['admin']==1)
+        {?>
+          <!--MODAL LOGIN ADMINISTRADOR-->
+            <div class="modal fade" id="mostrarmodal" tabindex="-1" role="dialog" aria-labelledby="basicModal" aria-hidden="true">
+              <div class="modal-dialog">
+                <div class="modal-content">
+                   <div class="modal-header">
+                  
+                      <h3>Bienvenido Administrador!</h3>
+                      <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                   </div>
+                   <div class="modal-body">
+                      <h4>Ya puedes empezar a trabajar ;)</h4>
+                      
+               </div>
+                   <div class="modal-footer">
+                    <!--Aquí quiero que al darle al cerrar me redireccione-->
+                  <a href="index.php" class="btn btn-success">Cerrar</a>
+                    </div>
+        <?php
+        }
+
         $rows=mysqli_num_rows($resultado);
-        //si el resultado de la quiery devuelve una fila, entonces es que ha encontrado login y password
+        //si el resultado de la query devuelve una fila, entonces es que ha encontrado login y password en un regsitro
         if($rows==1)
         { $_SESSION['nombre_usuario']=$usuario;
           ?>
@@ -92,10 +117,8 @@ if(isset($_POST['submit']))
                    <div class="modal-footer">
                     <!--Aquí quiero que al darle al cerrar me redireccione-->
                   <a href="index.php" class="btn btn-success">Cerrar</a>
-
-
-                         </div>
-                    </div>
+                   </div>
+                 
                  </div>
               </div>
       <?php  }
@@ -111,7 +134,7 @@ if(isset($_POST['submit']))
                       <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                    </div>
                    <div class="modal-body">
-                      <h4>Inténtalo de nuevo!</h4>
+                      <h4>Inténtalo de nuevo o date de alta!</h4>
                       
                </div>
                    <div class="modal-footer">
@@ -124,6 +147,7 @@ if(isset($_POST['submit']))
       <?php
     }
   }
+  $desc=mysqli_close($conectar);
 ?>
 
     <!-- el footer -->

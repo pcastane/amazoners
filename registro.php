@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    <title>registro</title>
+    <title>Registro Usuario</title>
     <link rel="shortcut icon" type="image/png" href="./favicon.png">
 
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
@@ -152,7 +152,7 @@ if(isset($_POST['submit']))
 </div>
 
 
-<? php 
+<? php $desc=mysqli_close($conectar);
 
 } else{ ?>
 
@@ -176,20 +176,14 @@ if(isset($_POST['submit']))
       </div>
     </div>
 
-<?php } 
+<?php $desc=mysqli_close($conectar);
+   } 
   }
 }
+
+
 ?>
 
-    <!-- el footer -->
-    <div class="navbar navbar-fixed-bottom navbar-dark bg-dark"
-    style="position:fixed;left:0px;bottom:0px;height:80px;width:100%;">
-      <div class="container">
-        <p class="navbar-text pull-left">© 2018 - P9 Amazoners
-        </p>
-
-      </div>
-    </div>
 
 </body>
 

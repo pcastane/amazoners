@@ -31,6 +31,9 @@
             </div>
           </li>
         </ul><?php echo '<font color="white">'.$_SESSION['nombre_usuario'].'</font>&nbsp&nbsp';?>
+        <a href="#" class="btn-success btn">Opinar</a>&nbsp
+        <a href="nuevo.php" class="btn-success btn">Nueva Casa/Exp.</a>&nbsp
+        <a href="editarperfil.php" class="btn-success btn">Editar perfil</a>&nbsp
         <a href="logout.php" class="btn-danger btn">Logout</a>
       </div>
     </nav>
@@ -62,6 +65,7 @@
             </div>
           </li>
         </ul>
+        <a href="registro.php" class="navbar-btn btn-success btn pull-right">Alta Usuario</a>&nbsp
         <a href="login.php" class="navbar-btn btn-success btn pull-right">Login</a>
       </div>
     </nav>
