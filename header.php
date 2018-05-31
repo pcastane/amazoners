@@ -1,10 +1,7 @@
 <header>
-
   <?php
-  session_start();
-
+@session_start(); 
 //SI DETECTO SESSION INICIADA, O SE AUSUARIO LOGUEADO, MUESTRA NOMBRE USUARIO Y BOTON DE LOGOUT
-
   if(isset($_SESSION['nombre_usuario']))
   { ?>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -30,9 +27,13 @@
               <a class="dropdown-item" href="experiencias.php">Experiencias al aire libre</a>
             </div>
           </li>
-        </ul><?php echo '<font color="white">'.$_SESSION['nombre_usuario'].'</font>&nbsp&nbsp';?>
+        </ul>
+        <!--SI ES UN ADMINISTRADOR, MOSTRARÁ ADEMÁS EL BOTÓN NAV DE "MENU ADMIN"-->
+        <?php echo '<font color="white">'.$_SESSION['nombre_usuario'].'</font>&nbsp&nbsp';
+        if($_SESSION['nombre_usuario']=='admin'){ ?> <a href="menuadmin.php" class="btn-success btn">Menú ADMIN</a>&nbsp <?php }
+        ?>
         <a href="#" class="btn-success btn">Opinar</a>&nbsp
-        <a href="nuevo.php" class="btn-success btn">Nueva Casa/Exp.</a>&nbsp
+        <a href="nuevo.php" class="btn-success btn">Nuevo producto</a>&nbsp
         <a href="editarperfil.php" class="btn-success btn">Editar perfil</a>&nbsp
         <a href="logout.php" class="btn-danger btn">Logout</a>
       </div>

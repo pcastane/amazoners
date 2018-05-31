@@ -116,8 +116,8 @@ if(isset($_POST['submit']))
           </div>
 
           <?php
-       } 
-  else{
+        } 
+   else{
 
     //USUARIO NO EXISTE-> PROCEDO CON EL ALTA-> DECLARO LA SQL CON LOS DATOS DEL USUARIO:
     $sql="INSERT INTO usuario (id,usuario,nombre,apellidos,email,password,fecha_alta,num_valoraciones,novato,experto,profesional,activo,admin)
@@ -152,7 +152,7 @@ if(isset($_POST['submit']))
 </div>
 
 
-<? php $desc=mysqli_close($conectar);
+<?php $desc=mysqli_close($conectar);
 
 } else{ ?>
 

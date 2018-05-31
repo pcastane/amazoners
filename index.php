@@ -1,6 +1,11 @@
 <!doctype html>
 <html lang="en">
   <head>
+
+    <!--se accede por www.awardspace.com
+        usuario: pcastane@fp.uoc.edu
+        pswrd: dawencoders1-->
+        
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
@@ -32,10 +37,11 @@
 
   </head>
   <body>
-    
+   
 <!--CARGO EL HEADER-->
 <?php
-    require_once('header.php');
+
+require_once('header.php');
 ?>
 
     <section>

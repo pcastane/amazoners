@@ -30,7 +30,7 @@
 <legend><font color="white">Datos de la Nueva Casa:</font></legend>
 <div class="container-fluid">
   <!--FORMULARIO ADAPTADO PARA SUBIR ARCHIVOS-->
-  <form class="form-horizontal" action="nuevacasa.php" method="POST" enctype="multipart/form-data">
+  <form class="form-horizontal" action="" method="POST" enctype="multipart/form-data">
   <div class="row">
     <div class="col-md-4">
       
@@ -70,40 +70,40 @@
           <div class="form-group">
             Sirven Comidas:
             <select name="comidas">
-                <option value="si">SI</option>
-                <option value="no">NO</option>
+                <option value="1">SI</option>
+                <option value="0">NO</option>
             </select>
           </div>
 
           <div class="form-group">
             Tiene piscina:
             <select name="piscina">
-                <option value="si">SI</option>
-                <option value="no">NO</option>
+                <option value="1">SI</option>
+                <option value="0">NO</option>
             </select>
           </div>
 
           <div class="form-group">
             Tiene conexión WiFi:
             <select name="wifi">
-                <option value="si">SI</option>
-                <option value="no">NO</option>
+                <option value="1">SI</option>
+                <option value="0">NO</option>
             </select>
           </div>
 
           <div class="form-group">
             Tiene Parking:
             <select name="parking">
-                <option value="si">SI</option>
-                <option value="no">NO</option>
+                <option value="1">SI</option>
+                <option value="0">NO</option>
             </select>
           </div>
 
           <div class="form-group">
             Admite mascotas:
             <select name="mascotas">
-                <option value="si">SI</option>
-                <option value="no">NO</option>
+                <option value="1">SI</option>
+                <option value="0">NO</option>
             </select>
           </div>
 
@@ -112,7 +112,7 @@
       
         </div>
         <button type="submit" name="submit" class="btn btn-success btn-lg btn-block">GUARDAR DATOS</button>
-        <!--<button class="btn btn-success btn-lg btn-block" type="submit" value="GUARDAR DATOS" name="submit">-->
+
       </div>
 
   </form>
@@ -124,7 +124,7 @@ if(isset($_POST['submit']))
 {
 
     //arrancamos sessions
-    session_start();
+    @session_start();
     
     //conecto con la BD
     $conectar=@mysqli_connect('localhost','root','') 
@@ -186,20 +186,17 @@ if(isset($_POST['submit']))
     $wifi=$_POST['wifi'];
     $parking=$_POST['parking'];
     $mascotas=$_POST['mascotas'];
-    echo $nombre_producto;
-    echo $wifi;
 
     //GUARDO LOS DATOS EN LA BD
-    $sql="INSERT INTO producto VALUES (NULL,1,1,'casa 1','pez3','6','76','si','si','si','no','no',NULL,NULL)";
 
-    /*$sql="INSERT INTO producto (id_producto,id_tipo_prod,id_tipo_cat,nombre_producto,direccion,num_habitaciones,precio,comidas,piscina,wifi,parking,mascotas,duracion,edad_min) 
-    VALUES (NULL,1,1,'$nombre_producto','$direccion','$num_habitaciones','$precio','$comidas','$piscina','$wifi','$parking','$mascotas',NULL,NULL)";*/
+    $sql="INSERT INTO producto (id_producto,id_tipo_prod,id_tipo_cat,nombre_producto,direccion,num_habitaciones,precio,comidas,piscina,wifi,parking,mascotas,duracion,edad_min) 
+    VALUES (NULL,1,1,'$nombre_producto','$direccion','$num_habitaciones','$precio','$comidas','$piscina','$wifi','$parking','$mascotas',0,0)";
 
     //LANZO LA SQL
     $resultado=mysqli_query($conectar,$sql);
 
     //SI SQL OK, MOSTRAMOS EXITO
-    if($resultado)
+    if($resultado==1)
       { ?>
 
     <!--MODAL EXITO ALTA CASA-->
@@ -224,7 +221,7 @@ if(isset($_POST['submit']))
     </div>
 
 
-    <? php $desc=mysqli_close($conectar);
+    <?php $desc=mysqli_close($conectar);
 
     } else{ ?>
 

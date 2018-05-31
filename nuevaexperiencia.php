@@ -149,10 +149,9 @@ if(isset($_POST['submit']))
     echo $nombre_producto;
 
     //GUARDO LOS DATOS EN LA BD
-    /*$sql="INSERT INTO producto VALUES (NULL,2,1,'casa 1','pez3','6','76','si','si','si','no','no',NULL,NULL)";*/
 
     $sql="INSERT INTO producto (id_producto,id_tipo_prod,id_tipo_cat,nombre_producto,direccion,num_habitaciones,precio,comidas,piscina,wifi,parking,mascotas,duracion,edad_min) 
-    VALUES (NULL,2,1,'$nombre_producto','$direccion',NULL,'$precio',NULL,NULL,NULL,'$parking',NULL,'$duracion','$edad_min')";
+    VALUES (NULL,2,1,'$nombre_producto','$direccion',0,'$precio',0,0,0,'$parking',0,'$duracion','$edad_min')";
 
     //LANZO LA SQL
     $resultado=mysqli_query($conectar,$sql);
@@ -183,7 +182,7 @@ if(isset($_POST['submit']))
     </div>
 
 
-    <? php $desc=mysqli_close($conectar);
+    <?php $desc=mysqli_close($conectar);
 
     } else{ ?>
 

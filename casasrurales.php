@@ -23,34 +23,10 @@
 
   </head>
   <body>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-      <a class="navbar-brand" href="#"> </a> <img src="./img/favicon.png" class="img-fluid" alt="Responsive image">
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
+  <?php
 
-
-      <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav mr-auto">
-          <li class="nav-item active">
-            <a class="nav-link" href="index.html">Principal</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="quees.html">Qué es Amazoners</a>
-          </li>
-          <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              Productos</a>
-            <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-              <a class="dropdown-item" href="casasrurales.html">Casas rurales</a>
-              <a class="dropdown-item" href="experiencias.html">Experiencias al aire libre</a>
-            </div>
-          </li>
-        </ul>
-        <a href="login.html" class="navbar-btn btn-success btn pull-right">Login</a>
-      </div>
-    </nav>
-
+require_once('header.php');
+?>
 
     
     <section>

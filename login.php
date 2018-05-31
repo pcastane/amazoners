@@ -97,7 +97,9 @@ if(isset($_POST['submit']))
 
         $rows=mysqli_num_rows($resultado);
         //si el resultado de la query devuelve una fila, entonces es que ha encontrado login y password en un regsitro
-        if($rows==1)
+        //verifico que el usuario esté activo=1
+
+        if($rows==1 && $res['activo']==1)
         { $_SESSION['nombre_usuario']=$usuario;
           ?>
           
