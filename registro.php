@@ -41,7 +41,7 @@
                                    	
                         </div>
                         <div class="form-group">
-                                <input type="text" class="form-control" name="user" placeholder="Usuario" required="required">
+                                <input type="text" class="form-control" name="user" placeholder="Usuario Login" required="required">
                             </div>
                         <div class="form-group">
                             <input type="email" class="form-control" name="email" placeholder="Email" required="required">
@@ -74,20 +74,8 @@ if(isset($_POST['submit']))
     $password=$_POST['password'];
     $fecha_alta=date('m/d/Y');
 
-    //arrancamos sessions
-    session_start();
+    require_once('conectarbd.php');
     
-    //conecto con la BD
-    $conectar=@mysqli_connect('localhost','root','') 
-      or die("<font color='red'>Fallo de conexión con el servidor:</font><br>".mysqli_connect_error());
-    
-    //seleccionamos la BBDD 
-    $bbdd=mysqli_select_db($conectar,'amazoners')
-      or die("La BBDD no pudo ser seleccionada.");
-
-    //establezco el charset para que guarde acentos y ñ
-    mysqli_set_charset($conectar, 'utf8');
-
     //COMPRUEBO QUE EL USUARIO NO ESTÉ DADO DE ALTA YA:
       $sql_verif="SELECT * FROM usuario WHERE usuario = '$usuario'";
       $q = mysqli_query($conectar,$sql_verif);

@@ -27,22 +27,10 @@
 
 //OBTENGO LOS DATOS DEL USUARIO DE LA BD    
 
-    //arrancamos sessions
-    session_start();
+    require_once('conectarbd.php');
 
     //obtengo el nombre del usuario de session
     $usuario=$_SESSION['nombre_usuario'];
-
-    //conecto con la BD
-    $conectar=@mysqli_connect('localhost','root','') 
-      or die("<font color='red'>Fallo de conexión con el servidor:</font><br>".mysqli_connect_error());
-    
-    //seleccionamos la BBDD 
-    $bbdd=mysqli_select_db($conectar,'amazoners')
-      or die("La BBDD no pudo ser seleccionada.");
-
-    //establezco el charset para que guarde acentos y ñ
-    mysqli_set_charset($conectar, 'utf8');
 
     //SELECCIONO LOS DATOS DEL USUARIO:
     $sql="SELECT * FROM usuario WHERE usuario='$usuario'";
@@ -71,7 +59,7 @@
                                 <div class="col-xs-6"><input type="text" class="form-control" name="last_name" value="'.$valores["apellidos"].'" required="required"></div>
                                    	
                         </div>
-                        <div class="form-group">Usuario:<br>
+                        <div class="form-group">Usuario Login:<br>
                                 <input type="text" class="form-control" name="user" value="'.$valores["usuario"].'"" required="required">
                             </div>
                         <div class="form-group">Email:<br>
@@ -138,7 +126,7 @@ if(isset($_POST['submit']))
   </div>
 
 
-<? php 
+<?php 
 
   } else{ ?>
 

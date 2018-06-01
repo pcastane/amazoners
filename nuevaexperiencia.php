@@ -57,8 +57,8 @@
                 <option value="no">NO</option>
             </select>
           </div>
-        </div>
-        <div class="col-md-4">
+    </div>
+    <div class="col-md-4">
 
           <div class="form-group">
             <label class="control-label" for="textinput">Duración:</label>  
@@ -69,6 +69,16 @@
             <label class="control-label" for="textinput">Edad mínima:</label>  
             <input id="textinput" name="edad_min" type="text" class="form-control input-md">
           </div>
+
+          <div class="form-group">
+            Categoría:
+            <select name="categoria">
+                <option value="4">Deportiva</option>
+                <option value="5">Familiar</option>
+                <option value="6">Individual</option>
+                <option value="7">En grupo</option>
+            </select>
+          </div>       
 
           <label for="adjuntar archivo">Adjuntar foto 1:</label>
           <input type='file' name='foto2' id='foto' placeholder="Sube una foto">
@@ -86,19 +96,7 @@
 if(isset($_POST['submit']))
 {
 
-    //arrancamos sessions
-    session_start();
-    
-    //conecto con la BD
-    $conectar=@mysqli_connect('localhost','root','') 
-      or die("<font color='red'>Fallo de conexión con el servidor:</font><br>".mysqli_connect_error());
-    
-    //seleccionamos la BBDD 
-    $bbdd=mysqli_select_db($conectar,'amazoners')
-      or die("La BBDD no pudo ser seleccionada.");
-
-    //establezco el charset para que guarde acentos y ñ
-    mysqli_set_charset($conectar, 'utf8');
+    require_once('conectarbd.php');
 
 
     //GUARDO LA FOTO EN CARPETA IMG
@@ -182,7 +180,30 @@ if(isset($_POST['submit']))
     </div>
 
 
-    <?php $desc=mysqli_close($conectar);
+    <?php 
+    // GUARDO DATOS EN LA TABLA **GESTIONA**
+    //PRIMERO OBTENGO EL id_usuario
+    $nombre_usuario=$_SESSION['nombre_usuario'];
+    $sql_usuario="SELECT * FROM usuario WHERE usuario='$nombre_usuario'";
+    $res1=mysqli_query($conectar,$sql_usuario);
+    $res11=mysqli_fetch_array($res1,MYSQLI_ASSOC);
+    $id_usuario=$res11['id'];
+
+    //LUEGO OBTENGO EL id_producto
+    echo $nombre_producto;
+    $sql_producto="SELECT * FROM producto WHERE nombre_producto='$nombre_producto'";    
+    $res2=mysqli_query($conectar,$sql_producto);
+    $res22=mysqli_fetch_array($res2,MYSQLI_ASSOC);
+    $id_producto=$res22['id_producto'];
+
+    //Y LOS DATOS OBTENIDOS, LOS GUARDO EN LA TABLA 'GESTIONA'
+    $sql_gestiona="INSERT INTO gestiona VALUES ('$id_usuario','$id_producto')";
+    //$sql_gestiona="INSERT INTO gestiona VALUES (24,9)";
+    $gestiona_ok=mysqli_query($conectar,$sql_gestiona);
+
+    //desconecto de la BD
+    $desc=mysqli_close($conectar);
+
 
     } else{ ?>
 

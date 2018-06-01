@@ -29,11 +29,19 @@
           </li>
         </ul>
         <!--SI ES UN ADMINISTRADOR, MOSTRARÁ ADEMÁS EL BOTÓN NAV DE "MENU ADMIN"-->
-        <?php echo '<font color="white">'.$_SESSION['nombre_usuario'].'</font>&nbsp&nbsp';
-        if($_SESSION['nombre_usuario']=='admin'){ ?> <a href="menuadmin.php" class="btn-success btn">Menú ADMIN</a>&nbsp <?php }
+        <?php echo '<font color="white">Hola '.$_SESSION['nombre_usuario'].'</font>&nbsp';
+        
+        require_once('conectarbd.php');
+
+        $nombre_usuario=$_SESSION['nombre_usuario'];
+        $sql_usuario="SELECT * FROM usuario WHERE usuario='$nombre_usuario'";
+        $res1=mysqli_query($conectar,$sql_usuario);
+        $res11=mysqli_fetch_array($res1,MYSQLI_ASSOC);
+        $admin=$res11['admin'];
+        if($admin==1){ ?> <a href="menuadmin.php" class="btn-success btn">Menú ADMIN</a>&nbsp <?php }
         ?>
         <a href="#" class="btn-success btn">Opinar</a>&nbsp
-        <a href="nuevo.php" class="btn-success btn">Nuevo producto</a>&nbsp
+        <a href="nuevo.php" class="btn-success btn">Mis Productos</a>&nbsp
         <a href="editarperfil.php" class="btn-success btn">Editar perfil</a>&nbsp
         <a href="logout.php" class="btn-danger btn">Logout</a>
       </div>

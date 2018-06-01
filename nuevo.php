@@ -33,6 +33,15 @@
 
 <a href="nuevacasa.php" class="btn-success btn">Una Casa Rural</a>&nbsp
 <a href="nuevaexperiencia.php" class="btn-success btn">Una Experiencia</a>
+
+<!--FORMULARIO EDITAR CASA O EXPERIENCIA-->
+<center><br><br><br>
+<h3>
+  <font color="white">Qué quieres modificar?</font>
+</h3>
+
+<a href="editarcasa.php" class="btn-success btn">Una Casa Rural</a>&nbsp
+<a href="editarexperiencia.php" class="btn-success btn">Una Experiencia</a>
 </center>
 
     <!-- el footer -->
