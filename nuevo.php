@@ -40,7 +40,7 @@
   <font color="white">Qué quieres modificar?</font>
 </h3>
 
-<a href="editarcasa.php" class="btn-success btn">Una Casa Rural</a>&nbsp
+<a href="buscarcasaedit.php" class="btn-success btn">Una Casa Rural</a>&nbsp
 <a href="editarexperiencia.php" class="btn-success btn">Una Experiencia</a>
 </center>
 

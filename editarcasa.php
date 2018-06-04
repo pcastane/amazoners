@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    <title>Nueva Casa</title>
+    <title>Editar Casa</title>
     <link rel="shortcut icon" type="image/png" href="./favicon.png">
 
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
@@ -23,37 +23,47 @@
 <!--CARGO EL HEADER-->
 <?php
     require_once('header.php');
+    require_once('conectarbd.php');
 
-?>
-<!--FORMULARIO ALTA CASA -->
+  //OBTENEMOS LOS DATOS DE LA CASA:
+    $nombre_casa=$_POST['casa_seleccionada'];  
 
-<legend><font color="white">Datos de la Nueva Casa:</font></legend>
+    echo $nombre_casa;
+    $sql_usuario="SELECT * FROM producto WHERE nombre_producto='$nombre_casa'";
+    $res1=mysqli_query($conectar,$sql_usuario);
+    $res11=mysqli_fetch_array($res1,MYSQLI_ASSOC);
+
+  //FORMULARIO EDITAR CASA RELLENDO CONLOS VALORES QU VIENEN DE LA BD
+echo '
+<legend><font color="white">Edita los datos de la Casa:</font></legend>
 <div class="container-fluid">
   <!--FORMULARIO ADAPTADO PARA SUBIR ARCHIVOS-->
-  <form class="form-horizontal" action="" method="POST" enctype="multipart/form-data">
+  <form class="form-horizontal" action="editarcasa.php" method="POST" enctype="multipart/form-data">
   <div class="row">
     <div class="col-md-4">
       
 
       <div class="form-group">
         <label class="control-label" for="textinput">Nombre de la Casa:</label>  
-        <input id="textinput" name="nombre_producto" type="text"class="form-control input-md">
+        <input id="textinput" name="nombre_producto" type="text" value="'.$res11["nombre_producto"].'" class="form-control input-md">
       </div>
 
       <div class="form-group">
         <label class="control-label" for="textinput">Dirección:</label>  
-        <input id="textinput" name="direccion" type="text" class="form-control input-md">
+        <input id="textinput" name="direccion" type="text" value="'.$res11["direccion"].'" class="form-control input-md">
       </div>
 
       <div class="form-group">
         <label class="control-label" for="textinput">Número de habitaciones:</label>  
-        <input id="textinput" name="num_habitaciones" type="text" class="form-control input-md">  
+        <input id="textinput" name="num_habitaciones" type="text" value="'.$res11["num_habitaciones"].'" class="form-control input-md">  
       </div>
 
       <div class="form-group">
         <label class="control-label" for="textinput">Precio:</label>  
-        <input id="textinput" name="precio" type="text" class="form-control input-md">  
+        <input id="textinput" name="precio" type="text" value="'.$res11["precio"].'" class="form-control input-md">  
       </div>
+
+    <!--PARA RELLENAR LOS SELECTS CON LOS VALORES DE LA BD, HE SUDADO SANGRE-->
 
       <div class="form-group">
         Categoría:
@@ -71,45 +81,54 @@
           <div class="form-group">
             Sirven Comidas:
             <select name="comidas">
-                <option value="1">SI</option>
-                <option value="0">NO</option>
+                <option value="'.(($res11["comidas"]==1)?1:0).'" selected>'.(($res11["comidas"]==1)?'SI':'NO').'</option>
+                <option value="'.(($res11["comidas"]==1)?0:1).'">'.(($res11["comidas"]==1)?'NO':'SI').'</option>
+                
             </select>
           </div>
 
           <div class="form-group">
             Tiene piscina:
             <select name="piscina">
-                <option value="1">SI</option>
-                <option value="0">NO</option>
+                <option value="'.(($res11["piscina"]==1)?1:0).'" selected>'.(($res11["piscina"]==1)?'SI':'NO').'</option>
+                <option value="'.(($res11["piscina"]==1)?0:1).'">'.(($res11["piscina"]==1)?'NO':'SI').'</option>
             </select>
           </div>
 
           <div class="form-group">
             Tiene conexión WiFi:
             <select name="wifi">
-                <option value="1">SI</option>
-                <option value="0">NO</option>
+                <option value="'.(($res11["wifi"]==1)?1:0).'" selected>'.(($res11["wifi"]==1)?'SI':'NO').'</option>
+                <option value="'.(($res11["wifi"]==1)?0:1).'">'.(($res11["wifi"]==1)?'NO':'SI').'</option>
             </select>
           </div>
 
           <div class="form-group">
             Tiene Parking:
             <select name="parking">
-                <option value="1">SI</option>
-                <option value="0">NO</option>
+                <option value="'.(($res11["parking"]==1)?1:0).'" selected>'.(($res11["parking"]==1)?'SI':'NO').'</option>
+                <option value="'.(($res11["parking"]==1)?0:1).'">'.(($res11["parking"]==1)?'NO':'SI').'</option>
             </select>
           </div>
 
           <div class="form-group">
             Admite mascotas:
             <select name="mascotas">
-                <option value="1">SI</option>
-                <option value="0">NO</option>
-            </select>
+                 <option value="'.(($res11["mascotas"]==1)?1:0).'" selected>'.(($res11["mascotas"]==1)?'SI':'NO').'</option>
+                <option value="'.(($res11["mascotas"]==1)?0:1).'">'.(($res11["mascotas"]==1)?'NO':'SI').'</option>
+           </select>
+          </div>
+
+          <div class="form-group">
+            <b>NEGOCIO ABIERTO?:</b>
+            <select name="activo">
+                <option value="'.(($res11["activo"]==1)?1:0).'" selected>'.(($res11["activo"]==1)?'SI':'NO').'</option>
+                <option value="'.(($res11["activo"]==1)?0:1).'">'.(($res11["activo"]==1)?'NO':'SI').'</option>
+           </select>
           </div>
 
                 <label for="adjuntar archivo">Adjuntar foto 1:</label>
-                <input type='file' name='foto1' id='foto' placeholder="Sube una foto"><br><br>
+                <input type="file" name="foto1" id="foto" placeholder="Sube una foto"><br><br>
        <button type="submit" name="submit" class="btn btn-success btn-lg btn-block">GUARDAR DATOS</button>
         </div>
        
@@ -119,12 +138,13 @@
   </form>
 </div>
 
-<?php 
+'; //fin del echo
 
 if(isset($_POST['submit']))
 {
 
-    require_once('conectarbd.php');
+
+
 
     //GUARDO LA FOTO EN CARPETA IMG
 /*
@@ -165,82 +185,52 @@ if(isset($_POST['submit']))
   */
 
     //asignamos variables que vienen del formulario
-    $nombre_producto=$_POST['nombre_producto'];
+    //$nombre_producto=$_POST['nombre_producto'];
     $direccion=$_POST['direccion'];
     $num_habitaciones=$_POST['num_habitaciones'];
     $precio=$_POST['precio'];
-    $categoria=$_POST['categoria'];
     $comidas=$_POST['comidas'];
     $piscina=$_POST['piscina'];
     $wifi=$_POST['wifi'];
     $parking=$_POST['parking'];
     $mascotas=$_POST['mascotas'];
+    $activo=$_POST['activo'];
+    $id_producto=$res11['id_producto'];
 
-    //ASIGNO EL NOMBRE DE LA CATEGORÍA SEGÚN EL VALUE OBTENIDO DEL FORMULARIO
-    if($categoria==1)
-    {
-      $nombre_categoria='Precio Alto';
-    }else{
-          if($categoria==2){$nombre_categoria='Precio Medio';}else{$nombre_categoria='Low Cost';}
-         }
-     // ****PRIMERO DE TODO MIRO SI YA HAY ALGUNA CASA CON ESTE NOMBRE, SI LA HAY ERROR->YA ESTA DADA DE ALTA****
 
-      $sql_verif="SELECT * FROM producto WHERE nombre_producto = '$nombre_producto'";
-      $q = mysqli_query($conectar,$sql_verif);
-         //verificamos si el nombre exsite ya con un condicional si ha encontrado algua columna
-         if( mysqli_num_rows($q) != 0)  // si ha encontrado algún registro que coincida, significa nombre ya UTILIZADO
-         {  
-          ?>
-          <!--MODAL ERROR CASA YA EXISTE-->
-          <div class="modal fade" id="mostrarmodal" tabindex="-1" role="dialog" aria-labelledby="basicModal" aria-hidden="true">
-            <div class="modal-dialog">
-              <div class="modal-content">
-                 <div class="modal-header">
-                
-                    <h4>Esta casa ya existe.</h4>
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
-                 </div>
-                 <div class="modal-body">
-                    <h5>Por favor, búscala para valorar.</h5>
-                    
-             </div>
-                 <div class="modal-footer">
-                <a href="buscarvalorar.php"  class="btn btn-danger">Cerrar</a>
-                 </div>
-            </div>
-            </div>
-          </div>
-
-          <?php
-        } 
-   else
-   {
-
-    //CASA NO EXISTE-> PROCEDO CON EL ALTA-> 
     //GUARDO LOS DATOS EN LA BD
-    //PRIMERO GUARDO LA CATEGORÍA DE LA CASA EN TABLA **CATEGORIA PRODUCTO**
 
-    $sql_categoria="INSERT INTO categoria (id_categoria, id_tipo_prod, nombre_categoria) VALUES ('$categoria',1,'$nombre_categoria')";
-    $resultado_categoria=mysqli_query($conectar,$sql_categoria);
+    $sql="UPDATE producto SET
+    nombre_producto='$nombre_casa',
+    direccion='$direccion',
+    num_habitaciones='$num_habitaciones',
+    precio='$precio',
+    comidas='$comidas',
+    piscina='$piscina',
+    wifi='$wifi',
+    parking='$parking',
+    mascotas='$mascotas',
+    activo='$activo'
+    WHERE id_producto='$id_producto'";
 
-    //SEGUNDO GUARDO LA CASA EN TABLA **PRODUCTO**
-    $sql="INSERT INTO producto (id_producto,id_tipo_prod,id_tipo_cat,nombre_producto,direccion,num_habitaciones,precio,comidas,piscina,wifi,parking,mascotas,duracion,edad_min) 
-    VALUES (NULL,1,1,'$nombre_producto','$direccion','$num_habitaciones','$precio','$comidas','$piscina','$wifi','$parking','$mascotas',0,0)";
+
+    /*(id_producto,id_tipo_prod,id_tipo_cat,nombre_producto,direccion,num_habitaciones,precio,comidas,piscina,wifi,parking,mascotas,duracion,edad_min) 
+    SET (NULL,1,1,'$nombre_producto','$direccion','$num_habitaciones','$precio','$comidas','$piscina','$wifi','$parking','$mascotas',0,0)*/
 
     //LANZO LA SQL
-    $resultado_guardar_casa=mysqli_query($conectar,$sql);
+    $resultado=mysqli_query($conectar,$sql);
 
-    //SI SQL OK, MOSTRAMOS EXITO ALTA CASA
-    if($resultado_guardar_casa==1)
+    //SI SQL OK, MOSTRAMOS EXITO EDITAR CASA
+    if($resultado==1)
       { ?>
 
-    <!--MODAL EXITO ALTA CASA-->
+    <!--MODAL EXITO EDITAR CASA-->
         <div class="modal fade" id="mostrarmodal" tabindex="-1" role="dialog" aria-labelledby="basicModal" aria-hidden="true">
           <div class="modal-dialog">
             <div class="modal-content">
                <div class="modal-header">
               
-                  <h3>Alta de la casa correcta!</h3>
+                  <h3>Datos actualizados!</h3>
                   <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                </div>
                <div class="modal-body">
@@ -258,24 +248,6 @@ if(isset($_POST['submit']))
 
     <?php 
 
-    // GUARDO DATOS EN LA TABLA **GESTIONA**
-    //PRIMERO OBTENGO EL id_usuario
-    $nombre_usuario=$_SESSION['nombre_usuario'];
-    $sql_usuario="SELECT * FROM usuario WHERE usuario='$nombre_usuario'";
-    $res1=mysqli_query($conectar,$sql_usuario);
-    $res11=mysqli_fetch_array($res1,MYSQLI_ASSOC);
-    $id_usuario=$res11['id'];
-
-    //LUEGO OBTENGO EL id_producto
-    $sql_producto="SELECT * FROM producto WHERE nombre_producto='$nombre_producto'";    
-    $res2=mysqli_query($conectar,$sql_producto);
-    $res22=mysqli_fetch_array($res2,MYSQLI_ASSOC);
-    $id_producto=$res22['id_producto'];
-
-    //Y LOS DATOS OBTENIDOS, LOS GUARDO EN LA TABLA 'GESTIONA'
-    $sql_gestiona="INSERT INTO gestiona VALUES ('$id_usuario','$id_producto')";
-    //$sql_gestiona="INSERT INTO gestiona VALUES (24,9)";
-    $gestiona_ok=mysqli_query($conectar,$sql_gestiona);
 
     //desconecto de la BD
     $desc=mysqli_close($conectar);
@@ -288,7 +260,7 @@ if(isset($_POST['submit']))
             <div class="modal-content">
                <div class="modal-header">
               
-                  <h4>Error al dar de alta la casa</h4>
+                  <h4>Error al modificar datos!</h4>
                   <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
                </div>
                <div class="modal-body">
@@ -302,11 +274,13 @@ if(isset($_POST['submit']))
           </div>
         </div>
 
-    <?php $desc=mysqli_close($conectar);
-       } 
- }
+    <?php 
 
+    $desc=mysqli_close($conectar);
+       } 
 }
+
+
 ?>
 
 

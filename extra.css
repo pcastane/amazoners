@@ -107,7 +107,12 @@
     border-radius: 50%;
 }
 
+/*header{
+  overflow-x: hidden;
+}*/
+
 body {
+    overflow-x: hidden;
     padding: 10px 0;
     background-color: #f4f4f4;
     font-family: 'Montserrat', sans-serif;
@@ -232,6 +237,18 @@ body {
     background-color: transparent;
     background-image: url("./img/j.jpg");
   }
+
+.img-thumb2-bg {
+    padding: 0;
+    overflow: hidden;
+    min-height: 200px;
+    position: relative;
+    border-radius: 3px;
+    background-position: center;
+    background-color: transparent;
+    background-image: url("../img/v.jpg");
+  }
+
 
   .img-thumb1-bg p {
     color: #fff;

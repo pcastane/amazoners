@@ -60,7 +60,7 @@
                                    	
                         </div>
                         <div class="form-group">Usuario Login:<br>
-                                <input type="text" class="form-control" name="user" value="'.$valores["usuario"].'"" required="required">
+                                <input type="text" class="form-control" name="user" value="'.$valores["usuario"].'" required="required">
                             </div>
                         <div class="form-group">Email:<br>
                             <input type="email" class="form-control" name="email" value="'.$valores["email"].'" required="required">

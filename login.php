@@ -55,8 +55,9 @@
 if(isset($_POST['submit']))
  {   
     require_once('conectarbd.php');
-
-    $sql="SELECT * FROM usuario WHERE usuario='$usuario' AND password='$password'";
+    
+    //MIRO QUE ENCUENTRE UNA COINCIDENCIA DE USUARIO Y PASSWORD Y QUE ESTÉ ACTIVO
+    $sql="SELECT * FROM usuario WHERE usuario='$usuario' AND password='$password' AND activo=1";
         $resultado=mysqli_query($conectar,$sql);
 
         //verifico si es un administrador primero

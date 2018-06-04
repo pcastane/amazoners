@@ -40,14 +40,14 @@
         $admin=$res11['admin'];
         if($admin==1){ ?> <a href="menuadmin.php" class="btn-success btn">Menú ADMIN</a>&nbsp <?php }
         ?>
-        <a href="#" class="btn-success btn">Opinar</a>&nbsp
+        <a href="buscarvalorar.php" class="btn-success btn">Valorar</a>&nbsp
         <a href="nuevo.php" class="btn-success btn">Mis Productos</a>&nbsp
         <a href="editarperfil.php" class="btn-success btn">Editar perfil</a>&nbsp
         <a href="logout.php" class="btn-danger btn">Logout</a>
       </div>
     </nav>
 
-    <!--SI NO DETECTA SESION INICIADA, O SEA NADIE LOGUEADO, MUESTRA SOLO BOTON DE LOGIN-->
+    <!--SI NO DETECTA SESION INICIADA, O SEA NADIE LOGUEADO, MUESTRA SOLO BOTON DE LOGIN Y ALTA USUARIO-->
 
     <?php } else {?>
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark">

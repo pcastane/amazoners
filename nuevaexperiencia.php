@@ -25,7 +25,7 @@
     require_once('header.php');
 
 ?>
-<!--FORMULARIO ALTA CASA -->
+<!--FORMULARIO ALTA EXPERIENCIA -->
 
 <legend><font color="white">Datos de la Nueva Experiencia:</font></legend>
 <div class="container-fluid">
@@ -158,7 +158,7 @@ if(isset($_POST['submit']))
     if($resultado)
       { ?>
 
-    <!--MODAL EXITO ALTA CASA-->
+    <!--MODAL EXITO ALTA EXPERIENCIA-->
         <div class="modal fade" id="mostrarmodal" tabindex="-1" role="dialog" aria-labelledby="basicModal" aria-hidden="true">
           <div class="modal-dialog">
             <div class="modal-content">
@@ -190,7 +190,7 @@ if(isset($_POST['submit']))
     $id_usuario=$res11['id'];
 
     //LUEGO OBTENGO EL id_producto
-    echo $nombre_producto;
+
     $sql_producto="SELECT * FROM producto WHERE nombre_producto='$nombre_producto'";    
     $res2=mysqli_query($conectar,$sql_producto);
     $res22=mysqli_fetch_array($res2,MYSQLI_ASSOC);
@@ -207,7 +207,7 @@ if(isset($_POST['submit']))
 
     } else{ ?>
 
-    <!--MODAL ERROR ALTA CASA-->
+    <!--MODAL ERROR ALTA EXPERIENCIA-->
         <div class="modal fade" id="mostrarmodal" tabindex="-1" role="dialog" aria-labelledby="basicModal" aria-hidden="true">
           <div class="modal-dialog">
             <div class="modal-content">
