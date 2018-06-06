@@ -46,6 +46,11 @@
       </div>
 
       <div class="form-group">
+        <label class="control-label" for="textinput">Teléfono:</label>  
+        <input id="textinput" name="telefono" type="text" class="form-control input-md">
+      </div>
+
+      <div class="form-group">
         <label class="control-label" for="textinput">Precio:</label>  
         <input id="textinput" name="precio" type="text" class="form-control input-md">  
       </div>
@@ -81,10 +86,10 @@
           </div>       
 
           <label for="adjuntar archivo">Adjuntar foto 1:</label>
-          <input type='file' name='foto2' id='foto' placeholder="Sube una foto">
-      
+          <input type='file' name='foto2' id='foto' placeholder="Sube una foto"><br><br>
+      <button type="submit" name="submit" class="btn btn-success btn-lg btn-block">GUARDAR DATOS</button>
         </div>
-        <button type="submit" name="submit" class="btn btn-success btn-lg btn-block">GUARDAR DATOS</button>
+        
         <!--<button class="btn btn-success btn-lg btn-block" type="submit" value="GUARDAR DATOS" name="submit">-->
       </div>
 
@@ -97,7 +102,6 @@ if(isset($_POST['submit']))
 {
 
     require_once('conectarbd.php');
-
 
     //GUARDO LA FOTO EN CARPETA IMG
 /*
@@ -138,24 +142,73 @@ if(isset($_POST['submit']))
   */
 
     //asignamos variables que vienen del formulario
+
     $nombre_producto=$_POST['nombre_producto'];
+    $categoria=$_POST['categoria'];
     $direccion=$_POST['direccion'];
+    $telefono=$_POST['telefono'];
     $precio=$_POST['precio'];
     $parking=$_POST['parking'];
     $duracion=$_POST['duracion'];
     $edad_min=$_POST['edad_min'];
-    echo $nombre_producto;
 
+    //ASIGNO EL NOMBRE DE LA CATEGORÍA SEGÚN EL VALUE OBTENIDO DEL FORMULARIO
+    if($categoria==4){$nombre_categoria='Deportiva';} 
+    elseif($categoria==5){$nombre_categoria='Familiar';}
+    elseif($categoria==6){$nombre_categoria='Individual';}
+    else{$nombre_categoria='En grupo';}
+         
+     // ****PRIMERO DE TODO MIRO SI YA HAY ALGUNA EPERIENCIA CON ESTE NOMBRE, SI LA HAY ERROR->YA ESTA DADA DE ALTA****
+
+      $sql_verif="SELECT * FROM producto WHERE nombre_producto = '$nombre_producto'";
+      $q = mysqli_query($conectar,$sql_verif);
+         //verificamos si el nombre exsite ya con un condicional si ha encontrado algua columna
+         if( mysqli_num_rows($q) != 0)  // si ha encontrado algún registro que coincida, significa nombre ya UTILIZADO
+         {  
+          ?>
+          <!--MODAL ERROR CASA YA EXISTE-->
+          <div class="modal fade" id="mostrarmodal" tabindex="-1" role="dialog" aria-labelledby="basicModal" aria-hidden="true">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                 <div class="modal-header">
+                
+                    <h4>Esta experiencia ya existe.</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
+                 </div>
+                 <div class="modal-body">
+                    <h5>Por favor, búscala para valorar.</h5>
+                    
+             </div>
+                 <div class="modal-footer">
+                <a href="buscarvalorar.php"  class="btn btn-danger">Cerrar</a>
+                 </div>
+            </div>
+            </div>
+          </div>
+
+          <?php
+        } 
+   else
+   {
+
+    //EXPERIENCIA NO EXISTE-> PROCEDO CON EL ALTA-> 
     //GUARDO LOS DATOS EN LA BD
+    //PRIMERO GUARDO LA CATEGORÍA DE LA CASA EN TABLA **CATEGORIA PRODUCTO**
 
-    $sql="INSERT INTO producto (id_producto,id_tipo_prod,id_tipo_cat,nombre_producto,direccion,num_habitaciones,precio,comidas,piscina,wifi,parking,mascotas,duracion,edad_min) 
-    VALUES (NULL,2,1,'$nombre_producto','$direccion',0,'$precio',0,0,0,'$parking',0,'$duracion','$edad_min')";
+    $sql_categoria="INSERT INTO categoria (id_categoria, id_tipo_prod, nombre_categoria) 
+    VALUES ('$categoria',2,'$nombre_categoria')";
+
+    $resultado_categoria=mysqli_query($conectar,$sql_categoria);
+
+    //SEGUNDO GUARDO LA EXPERIENCIA EN TABLA **PRODUCTO**
+    $sql_exp="INSERT INTO producto (id_producto,id_tipo_prod,id_tipo_cat,nombre_producto,direccion,telefono,precio,parking,duracion,edad_min) 
+    VALUES (NULL,2,'$categoria','$nombre_producto','$direccion','$telefono',$precio','$parking','$duracion','$edad_min')";
 
     //LANZO LA SQL
-    $resultado=mysqli_query($conectar,$sql);
+    $resultado_guardar_exp=mysqli_query($conectar,$sql_exp);
 
-    //SI SQL OK, MOSTRAMOS EXITO
-    if($resultado)
+    //SI SQL OK, MOSTRAMOS EXITO ALTA EXPERIENCIA
+    if($resultado_guardar_exp==1)
       { ?>
 
     <!--MODAL EXITO ALTA EXPERIENCIA-->
@@ -181,6 +234,7 @@ if(isset($_POST['submit']))
 
 
     <?php 
+
     // GUARDO DATOS EN LA TABLA **GESTIONA**
     //PRIMERO OBTENGO EL id_usuario
     $nombre_usuario=$_SESSION['nombre_usuario'];
@@ -190,7 +244,6 @@ if(isset($_POST['submit']))
     $id_usuario=$res11['id'];
 
     //LUEGO OBTENGO EL id_producto
-
     $sql_producto="SELECT * FROM producto WHERE nombre_producto='$nombre_producto'";    
     $res2=mysqli_query($conectar,$sql_producto);
     $res22=mysqli_fetch_array($res2,MYSQLI_ASSOC);
@@ -204,7 +257,6 @@ if(isset($_POST['submit']))
     //desconecto de la BD
     $desc=mysqli_close($conectar);
 
-
     } else{ ?>
 
     <!--MODAL ERROR ALTA EXPERIENCIA-->
@@ -213,7 +265,7 @@ if(isset($_POST['submit']))
             <div class="modal-content">
                <div class="modal-header">
               
-                  <h4>Error al dar de alta la experiencia</h4>
+                  <h4>Error al dar de alta la experiencia!</h4>
                   <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
                </div>
                <div class="modal-body">
@@ -229,9 +281,9 @@ if(isset($_POST['submit']))
 
     <?php $desc=mysqli_close($conectar);
        } 
+ }
+
 }
-
-
 ?>
 
 

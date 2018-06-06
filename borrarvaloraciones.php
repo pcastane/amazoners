@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    <title>Ver Valoraciones</title>
+    <title>Borrar Valoraciones</title>
     <link rel="shortcut icon" type="image/png" href="./favicon.png">
 
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
@@ -31,17 +31,12 @@ require_once('conectarbd.php');
 
 //OBTENEMOS LOS DATOS DE LAS CASAS RURALES
 
-    $nombre_casa_valoraciones=$_GET['casa'];   
+    $nombre_prod_valoraciones=$_POST['producto_opi'];   
 
-    echo '<h2><font color="white">Valoraciones : '.$nombre_casa_valoraciones.'</font></h2>';
-
-
-    echo '<h3>Valoración media:</h3>';
-
-
+    echo '<h2><font color="white">Valoraciones : '.$nombre_prod_valoraciones.'</font></h2>';
 
     //OBTENGO EL id_producto
-    $sql_producto1="SELECT * FROM producto WHERE nombre_producto='$nombre_casa_valoraciones'";    
+    $sql_producto1="SELECT * FROM producto WHERE nombre_producto='$nombre_prod_valoraciones'";    
     $res5=mysqli_query($conectar,$sql_producto1);
     $res52=mysqli_fetch_array($res5,MYSQLI_BOTH);
     $id_casa_valoraciones=$res52['id_producto'];
@@ -86,15 +81,87 @@ $resultado_valoraciones_casa=mysqli_query($conectar,$sql_mostrar_casas);
 
               <div> Valoración: '.$resultado_valoraciones['valoracion'].'</div></font>
           </div>
+          
+            <form action="" method="POST">
+                  <input type="text" name="id_usuario_valora" value="'.$id_usuario_valora.'" style="visibility:hidden"> 
+                  <input type="text" name="id_producto_valora" value="'.$resultado_valoraciones['id_producto_valora'].'" style="visibility:hidden">   
+                  <input type="submit" name="submit2" value="BORRAR ESTA OPINION" class="btn btn-danger btn-lg "><br>
+            </form>
         </div>
       </div><br><br>
       ';
     } 
     
 
-    $desc=mysqli_close($conectar); 
+ 
+
+if(isset($_POST['submit2']))
+{  
+
+$usuario_borr=$_POST['id_usuario_valora'];
+$prod_borr=$_POST['id_producto_valora'];
+
+//echo $usuario_borr;
+//echo $prod_borr;
+
+$sql_borrar_valoracion= "DELETE FROM valora WHERE ((id_usuario_valora='$usuario_borr') AND (id_producto_valora='$prod_borr'))";
+
+$res_borr_val=mysqli_query($conectar,$sql_borrar_valoracion);
+
+  if ($res_borr_val) 
+  {
+    ?>
+  <!--MODAL EXITO BORRADO OPINIONES-->
+    <div class="modal fade" id="mostrarmodal" tabindex="-1" role="dialog" aria-labelledby="basicModal" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+           <div class="modal-header">
+          
+              <h3>Opinion Borrada!</h3>
+              <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+           </div>
+           <div class="modal-body">
+              <h4></h4>
+              
+       </div>
+           <div class="modal-footer">
+          <a href="index.php" class="btn btn-success">Cerrar</a>
+
+             </div>
+        </div>
+     </div>
+  </div>
 
 
+<?php 
+
+  } else{ ?>
+
+<!--MODAL ERROR GUARDAR DATOS-->
+    <div class="modal fade" id="mostrarmodal" tabindex="-1" role="dialog" aria-labelledby="basicModal" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+           <div class="modal-header">
+          
+              <h4>Error al borrar la vloración.</h4>
+              <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
+           </div>
+           <div class="modal-body">
+              <h5>Contacta con el administrador!</h5>
+              
+       </div>
+           <div class="modal-footer">
+          <a href="#" data-dismiss="modal" class="btn btn-danger">Cerrar</a>
+           </div>
+      </div>
+      </div>
+    </div>
+
+  <?php 
+  }
+
+}
+   $desc=mysqli_close($conectar); 
 ?>
 
     <!-- el footer
@@ -108,4 +175,15 @@ $resultado_valoraciones_casa=mysqli_query($conectar,$sql_mostrar_casas);
       </div>
 
   </body>
+
+
+<!--SCRIPT DEL MODAL-->
+  
+
+<script>
+   $(document).ready(function()
+   {
+      $("#mostrarmodal").modal("show");
+   });
+</script>
 </html>

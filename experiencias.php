@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    <title>Experiencias al aire libre</title>
+    <title>Experiencias</title>
     <link rel="shortcut icon" type="image/png" href="./favicon.png">
 
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
@@ -20,179 +20,104 @@
 
 
 
+
   </head>
   <body>
- <?php
+
+<?php
 
 require_once('header.php');
+require_once('conectarbd.php');
+
+//OBTENEMOS LOS DATOS DE LAS CASAS RURALES, ORDENANDOLAS POR RANKING DE PUNTUACIONES, SIEMPRE QUE NO ESTEN BORRADAS
+
+$sql_mostrar_experiencias="SELECT * FROM producto WHERE ((id_tipo_prod = 2) AND (borrado=0)) ORDER BY ranking DESC";
+$resultado_mostrar_experiencias=mysqli_query($conectar,$sql_mostrar_experiencias);
+    
+    echo '<h4><font color="white">Experiencias: </font></h4>(Ordenadas por ranking de valoraciones)<br>';
+    while ($resultado_mostrar=mysqli_fetch_array($resultado_mostrar_experiencias,MYSQLI_BOTH)) {
+
+      echo '
+      <div class="container">
+      <div class="row">
+        <div class="col-md-9">
+          <form action="" method="POST">
+          
+            <table border=1 class="table table-dark"> 
+              <thead>
+                  <tr>
+
+                    <th scope="col">Nombre</th>
+                    <th scope="col">Datos</th>
+                    <th scope="col">Comodidades</th>
+                  </tr>
+                </thead>
+             <form>
+              <tr>
+      
+                <td>
+                  <input type="text" name="casa_seleccionada" value="'.$resultado_mostrar['nombre_producto'].'" style="visibility:hidden"> 
+                  <h4><font color="white">'.$resultado_mostrar['nombre_producto'].'</font></h4>
+
+                </td>
+                <td><font color="white">
+                  <p>Dirección: '.$resultado_mostrar['direccion'].'</p>
+             
+                  <p>Precio: '.$resultado_mostrar['precio'].'€</p></font> 
+                  <p>En activo: '.(($resultado_mostrar["activo"]==1)?"SI":"NO").'</p></font>
+
+                </td>
+
+                <td><font color="white">
+                <p>Duración: '.$resultado_mostrar['duracion'].'</p></font>
+                <p>Edad mínima: '.$resultado_mostrar['edad_min'].' años</p></font>
+
+                </td>
+               
+              </tr>
+              <tr>
+
+                <td>
+                </td>
+                <td><!--PASAMOS LA VARIABE POR GET-->
+                   <button type="submit" class="btn btn-success btn-lg btn-block">
+                   <a href="ver_valoraciones.php?casa='.$resultado_mostrar['nombre_producto'].'">VER VALORACIONES</button> <br>
+                </td>
+                <td><!--SI HAY USUARIO LOGUEADO, MOSTRAMOS VALORAR CASA, SINO NADA-->';
+
+                if(isset($_SESSION['nombre_usuario']))
+                  {
+
+                echo '
+                   <button type="submit" class="btn btn-success btn-lg btn-block">
+                   <a href="valorar.php?casa='.$resultado_mostrar['nombre_producto'].'">VALORAR ESTA experiencia</a></button> <br>';
+                  }
+                  echo '
+                </td>
+              </tr>
+             </form>
+            </table>
+            <br><hr><br>
+        </div>
+      </div>
+      </div>
+      ';
+    } 
+    
+
+    $desc=mysqli_close($conectar); 
+
+
 ?>
 
-    
-    <section>
-        <br>
-        <section class="bg-dark">
-            <br>
-        <div class="container ">
-            <div class="row">
-                <div class="col-lg-4 col-md-4 col-sm-6">
-                   <div class="thumbnail img-thumb-bg">
-                       <div class="overlay"></div>
-                       <div class="caption">
-                           <div class="tag"><a href="descripcionproducto.html">Experiencia outdoor</a></div>
-                           <div class="title"><a href="descripcionproducto.html">Nombre de la experiencia</a></div>
-                           <div class="clearfix">
-                               <span class="meta-data">Por <a href="">Usuario1</a> 23/04/18</span>
-                               <span class="meta-data pull-right"><a href=""><i class="fa fa-heart-o"></i> 1</a></span>
-                           </div>
-                           <div class="content">
-                               <p>Descripción de la experiencia, muy chula, y tal y cual</p>
-                           </div>
-                       </div>
-                   </div>
-                </div>
-                <div class="col-lg-4 col-md-4 col-sm-6">
-                   <div class="thumbnail img-thumb-bg">
-                       <div class="overlay"></div>
-                       <div class="caption">
-                           <div class="tag"><a href="descripcionproducto.html">Experiencia outdoor</a></div>
-                           <div class="title"><a href="descripcionproducto.html">Nombre de la siguiente experiencia</a></div>
-                           <div class="clearfix">
-                               <span class="meta-data">Por <a href="">Usuario2</a> 23/04/18</span>
-                               <span class="meta-data pull-right"><a href=""><i class="fa fa-heart-o"></i> 2</a></span>
-                           </div>
-                           <div class="content">
-                               <p>Muy bien, paseos a caballo dabuten</p>
-                           </div>
-                       </div>
-                   </div>
-                </div>
-                <div class="col-lg-4 col-md-4 col-sm-6">
-                   <div class="thumbnail img-thumb-bg">
-                       <div class="overlay"></div>
-                       <div class="caption">
-                           <div class="tag"><a href="descripcionproducto.html">Experiencia outdoor</a></div>
-                           <div class="title"><a href="descripcionproducto.html">Nombre de la siguiente experiencia</a></div>
-                           <div class="clearfix">
-                               <span class="meta-data">Por <a href="">Usuario3</a> 23/04/18</span>
-                               <span class="meta-data pull-right"><a href=""><i class="fa fa-heart-o"></i> 3</a></span>
-                           </div>
-                           <div class="content">
-                               <p>Not bad, el globo se pinchó a 100 metros por lo demás chévere</p>
-                           </div>
-                       </div>
-                   </div>
-                </div>
-                <div class="col-lg-4 col-md-4 col-sm-6">
-                   <div class="thumbnail img-thumb-bg">
-                       <div class="overlay"></div>
-                       <div class="caption">
-                           <div class="tag"><a href="descripcionproducto.html">Experiencia outdoor</a></div>
-                           <div class="title"><a href="descripcionproducto.html">Nombre de la siguiente experiencia</a></div>
-                           <div class="clearfix">
-                               <span class="meta-data">Por <a href="">Usuario35353</a> 23/04/18</span>
-                               <span class="meta-data pull-right"><a href=""><i class="fa fa-heart-o"></i> 4</a></span>
-                           </div>
-                           <div class="content">
-                               <p>Mal, no me diverti, una pena.</p>
-                           </div>
-                       </div>
-                   </div>
-                </div>
-                <div class="col-lg-4 col-md-4 col-sm-6">
-                   <div class="thumbnail img-thumb-bg">
-                       <div class="overlay"></div>
-                       <div class="caption">
-                           <div class="tag"><a href="descripcionproducto.html">Experiencia outdoor</a></div>
-                           <div class="title"><a href="descripcionproducto.html">Nombre de la siguiente experiencia</a></div>
-                           <div class="clearfix">
-                               <span class="meta-data">Por <a href="">Pepe</a> 23/04/18</span>
-                               <span class="meta-data pull-right"><a href=""><i class="fa fa-heart-o"></i> 5</a></span>
-                           </div>
-                           <div class="content">
-                               <p>Descripcion de lo bien que lo paso pepe</p>
-                           </div>
-                       </div>
-                   </div>
-                </div>
-                <div class="col-lg-4 col-md-4 col-sm-6">
-                   <div class="thumbnail img-thumb-bg">
-                       <div class="overlay"></div>
-                       <div class="caption">
-                           <div class="tag"><a href="descripcionproducto.html">Experiencia outdoor</a></div>
-                           <div class="title"><a href="descripcionproducto.html">Nombre de la siguiente experiencia</a></div>
-                           <div class="clearfix">
-                               <span class="meta-data">Por <a href="">Rajoy</a> 23/04/18</span>
-                               <span class="meta-data pull-right"><a href=""><i class="fa fa-heart-o"></i> 6</a></span>
-                           </div>
-                           <div class="content">
-                               <p>ehhhggque...las chuches</p>
-                           </div>
-                       </div>
-                   </div>
-                </div>
-            </div>
-        </div>
-        <br>
-        <div class="container alta">
-                <div class="row text-center">
-                    <a href="#" class="btn btn-sm btn-success center" data-toggle="modal" data-target="#basicModal">alta de productos</a>
-                </div>
-                <br>
-              </div>
-              
-              <div class="modal fade" id="basicModal" tabindex="-1" role="dialog" aria-labelledby="basicModal" aria-hidden="true">
-                <div class="modal-dialog">
-                  <div class="modal-content">
-                  <div class="modal-header"> 
-                      <h4 class="modal-title"   id="myModalLabel">Registro de casas y experiencias</h4>
-                      <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                  </div>
-                  <div class="container well">
-                        <form>
-                         <div class="form-group">
-                           <label for="usr">Nombre de la casa/experiencia</label>
-                           <input type="text" class="form-control" id="usr">
-                         </div>
-                         <div class="form-group">
-                           <label for="pwd">Descripcion</label>
-                           <input type="text" class="form-control" id="pwd">
-                         </div>
-                         <div class="form-group">
-                           <label for="pwd">Sube imagen</label>
-                           <input type="file" class="form-control" id="file">
-                         </div>
-                         <div class="pull-right">
-                              <button type="button" class="btn btn-primary" data-toggle="modal" data-backdrop="static" data-keyboard="false" data-target="#myModal" onclick="startUpload()" >Alta</button>
-                            </div>
-                       </form>
-                       <br>
-                     </div>
-                       <div class="modal fade" id="myModal" role="dialog">
-                         <div class="modal-dialog">
-                           <div class="modal-content">
-                             <div class="modal-header">          
-                               <h4 class="modal-title">Subiendo</h4>
-                             </div>
-                           </div>
-                           
-                         </div>
-                       </div> 
-                  
-                </div>
-              </div>
-    </section>
-    
-
-
-    <!-- el footer -->
+    <!-- el footer
     <div class="navbar navbar-fixed-bottom navbar-dark bg-dark"
     style="position:fixed;left:0px;bottom:0px;height:80px;width:100%;">
       <div class="container">
         <p class="navbar-text pull-left">© 2018 - P9 Amazoners
-        </p>
+        </p> -->
         
         
       </div>
 
   </body>
-</html>

@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    <title>Editar Casa</title>
+    <title>Editar Experiencia</title>
     <link rel="shortcut icon" type="image/png" href="./favicon.png">
 
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
@@ -26,119 +26,84 @@
     require_once('conectarbd.php');
 
   //OBTENEMOS LOS DATOS DE LA CASA:
-    $nombre_casa=$_POST['casa'];  
+    $nombre_experiencia=$_POST['experiencia_seleccionada'];  
 
-    $sql_usuario="SELECT * FROM producto WHERE nombre_producto='$nombre_casa'";
-    $res1=mysqli_query($conectar,$sql_usuario);
-    $res11=mysqli_fetch_array($res1,MYSQLI_ASSOC);
+    echo $nombre_experiencia;
+    $sql_experiencia="SELECT * FROM producto WHERE nombre_producto='$nombre_experiencia'";
+    $res10=mysqli_query($conectar,$sql_experiencia);
+    $res110=mysqli_fetch_array($res10,MYSQLI_ASSOC);
 
   //FORMULARIO EDITAR CASA RELLENDO CONLOS VALORES QU VIENEN DE LA BD
 echo '
-<legend><font color="white">Edita los datos de la Casa:</font></legend>
+<legend><font color="white">Edita los datos de la Experiencia:</font></legend>
 <div class="container-fluid">
   <!--FORMULARIO ADAPTADO PARA SUBIR ARCHIVOS-->
-  <form class="form-horizontal" action="editarcasa.php" method="POST" enctype="multipart/form-data">
+  <form class="form-horizontal" action="editarexperiencia.php" method="POST" enctype="multipart/form-data">
   <div class="row">
     <div class="col-md-4">
       
-            <input type="text" name="id_producto" value="'.$res11['id_producto'].'" style="visibility:hidden"> 
-            <input type="text" name="id_tipo_cat" value="'.$res11['id_tipo_cat'].'" style="visibility:hidden"> 
+      <input type="text" name="id_producto" value="'.$res110['id_producto'].'" style="visibility:hidden"> 
+      <input type="text" name="id_tipo_cat" value="'.$res110['id_tipo_cat'].'" style="visibility:hidden"> 
+
       <div class="form-group">
-        <label class="control-label" for="textinput">Nombre de la Casa:</label>  
-        <input id="textinput" name="nombre_producto" type="text" value="'.$res11["nombre_producto"].'" class="form-control input-md">
+        <label class="control-label" for="textinput">Nombre de la Experiencia:</label>  
+        <input id="textinput" name="nombre_producto" type="text" value="'.$res110["nombre_producto"].'" class="form-control input-md">
       </div>
 
       <div class="form-group">
         <label class="control-label" for="textinput">Dirección:</label>  
-        <input id="textinput" name="direccion" type="text" value="'.$res11["direccion"].'" class="form-control input-md">
+        <input id="textinput" name="direccion" type="text" value="'.$res110["direccion"].'" class="form-control input-md">
       </div>
 
       <div class="form-group">
         <label class="control-label" for="textinput">Teléfono:</label>  
-        <input id="textinput" name="telefono" type="text" value="'.$res11["telefono"].'" class="form-control input-md">
-      </div>
-
-      <div class="form-group">
-        <label class="control-label" for="textinput">Número de habitaciones:</label>  
-        <input id="textinput" name="num_habitaciones" type="text" value="'.$res11["num_habitaciones"].'" class="form-control input-md">  
+        <input id="textinput" name="telefono" type="text" value="'.$res110["telefono"].'" class="form-control input-md">  
       </div>
 
       <div class="form-group">
         <label class="control-label" for="textinput">Precio:</label>  
-        <input id="textinput" name="precio" type="text" value="'.$res11["precio"].'" class="form-control input-md">  
+        <input id="textinput" name="precio" type="text" value="'.$res110["precio"].'" class="form-control input-md">  
       </div>
 
-    <!--PARA RELLENAR LOS SELECTS CON LOS VALORES DE LA BD, HE SUDADO SANGRE-->
+      <div class="form-group">
+        Tiene Parking:
+        <select name="parking">
+            <option value="'.(($res11["parking"]==1)?1:0).'" selected>'.(($res11["parking"]==1)?'SI':'NO').'</option>
+            <option value="'.(($res11["parking"]==1)?0:1).'">'.(($res11["parking"]==1)?'NO':'SI').'</option>
+        </select>
+      </div>
 
+    </div>
+
+  <div class="col-md-4">
+
+
+      <div class="form-group">
+        <label class="control-label" for="textinput">Duración de la experiencia:</label>  
+        <input id="textinput" name="duracion" type="text" value="'.$res110["duracion"].'" class="form-control input-md">  
+      </div>
+
+    
+      <div class="form-group">
+        <label class="control-label" for="textinput">Edad mínima:</label>  
+        <input id="textinput" name="edad_min" type="text" value="'.$res110["edad_min"].'" class="form-control input-md">  
+      </div>
+    
       <div class="form-group">
         Categoría:
         <select name="categoria">
-            <option value="1">Precio Alto</option>
-            <option value="2">Precio Medio</option>
-            <option value="3">Low Cost</option>
+            <option value="1">Deportiva</option>
+            <option value="2">Individual</option>
+            <option value="3">Familiar</option>
+            <option value="4">En grupo</option>
 
         </select>
       </div>
+      <button type="submit" name="submit" class="btn btn-success btn-lg btn-block">GUARDAR DATOS</button>
+
+
     </div>
-
-        <div class="col-md-4">
-          
-          <div class="form-group">
-            Sirven Comidas:
-            <select name="comidas">
-                <option value="'.(($res11["comidas"]==1)?1:0).'" selected>'.(($res11["comidas"]==1)?'SI':'NO').'</option>
-                <option value="'.(($res11["comidas"]==1)?0:1).'">'.(($res11["comidas"]==1)?'NO':'SI').'</option>
-                
-            </select>
-          </div>
-
-          <div class="form-group">
-            Tiene piscina:
-            <select name="piscina">
-                <option value="'.(($res11["piscina"]==1)?1:0).'" selected>'.(($res11["piscina"]==1)?'SI':'NO').'</option>
-                <option value="'.(($res11["piscina"]==1)?0:1).'">'.(($res11["piscina"]==1)?'NO':'SI').'</option>
-            </select>
-          </div>
-
-          <div class="form-group">
-            Tiene conexión WiFi:
-            <select name="wifi">
-                <option value="'.(($res11["wifi"]==1)?1:0).'" selected>'.(($res11["wifi"]==1)?'SI':'NO').'</option>
-                <option value="'.(($res11["wifi"]==1)?0:1).'">'.(($res11["wifi"]==1)?'NO':'SI').'</option>
-            </select>
-          </div>
-
-          <div class="form-group">
-            Tiene Parking:
-            <select name="parking">
-                <option value="'.(($res11["parking"]==1)?1:0).'" selected>'.(($res11["parking"]==1)?'SI':'NO').'</option>
-                <option value="'.(($res11["parking"]==1)?0:1).'">'.(($res11["parking"]==1)?'NO':'SI').'</option>
-            </select>
-          </div>
-
-          <div class="form-group">
-            Admite mascotas:
-            <select name="mascotas">
-                 <option value="'.(($res11["mascotas"]==1)?1:0).'" selected>'.(($res11["mascotas"]==1)?'SI':'NO').'</option>
-                <option value="'.(($res11["mascotas"]==1)?0:1).'">'.(($res11["mascotas"]==1)?'NO':'SI').'</option>
-           </select>
-          </div>
-
-          <div class="form-group">
-            <b>NEGOCIO ABIERTO?:</b>
-            <select name="activo">
-                <option value="'.(($res11["activo"]==1)?1:0).'" selected>'.(($res11["activo"]==1)?'SI':'NO').'</option>
-                <option value="'.(($res11["activo"]==1)?0:1).'">'.(($res11["activo"]==1)?'NO':'SI').'</option>
-           </select>
-          </div>
-
-                <label for="adjuntar archivo">Adjuntar foto 1:</label>
-                <input type="file" name="foto1" id="foto" placeholder="Sube una foto"><br><br>
-       <button type="submit" name="submit" class="btn btn-success btn-lg btn-block">GUARDAR DATOS</button>
-        </div>
-       
-
-      </div>
+   </div>
 
   </form>
 </div>
@@ -147,9 +112,6 @@ echo '
 
 if(isset($_POST['submit']))
 {
-
-
-
 
     //GUARDO LA FOTO EN CARPETA IMG
 /*
@@ -190,51 +152,52 @@ if(isset($_POST['submit']))
   */
 
     //asignamos variables que vienen del formulario
+    //$nombre_producto=$_POST['nombre_producto'];
+
     $id_producto=$_POST['id_producto'];
     $id_tipo_cat=$_POST['id_tipo_cat'];
     $nombre_producto=$_POST['nombre_producto'];
     $direccion=$_POST['direccion'];
     $telefono=$_POST['telefono'];
-    $num_habitaciones=$_POST['num_habitaciones'];
     $precio=$_POST['precio'];
-    $comidas=$_POST['comidas'];
-    $piscina=$_POST['piscina'];
-    $wifi=$_POST['wifi'];
     $parking=$_POST['parking'];
-    $mascotas=$_POST['mascotas'];
+    $duracion=$_POST['duracion'];
+    $edad_min=$_POST['edad_min'];
     $activo=$_POST['activo'];
+
 
 
     //GUARDO LOS DATOS EN LA BD
 
-    $sql_editar_casa="UPDATE producto SET
+    $sql_editar_exp="UPDATE producto SET
     id_producto='$id_producto',
-    id_tipo_prod=1,
+    id_tipo_prod=2,
     id_tipo_cat='$id_tipo_cat',
     nombre_producto='$nombre_producto',
     direccion='$direccion',
     telefono='$telefono',
-    num_habitaciones='$num_habitaciones',
+    num_habitaciones=0,
     precio='$precio',
-    comidas='$comidas',
-    piscina='$piscina',
-    wifi='$wifi',
+    comidas=0,
+    piscina=0,
+    wifi=0,
     parking='$parking',
-    mascotas='$mascotas',
-    duracion=0,
-    edad_min=0,
+    mascotas=0,
+    duracion='$duracion',
+    edad_min='$edad_min',
     activo='$activo'
-    WHERE nombre_producto='$nombre_producto'";
+    WHERE id_producto='$id_producto'";
+
 
 
     /*(id_producto,id_tipo_prod,id_tipo_cat,nombre_producto,direccion,num_habitaciones,precio,comidas,piscina,wifi,parking,mascotas,duracion,edad_min) 
     SET (NULL,1,1,'$nombre_producto','$direccion','$num_habitaciones','$precio','$comidas','$piscina','$wifi','$parking','$mascotas',0,0)*/
 
     //LANZO LA SQL
-    $resultado_edit_casa=mysqli_query($conectar,$sql_editar_casa);
+    $resultado12=mysqli_query($conectar,$sql_editar_exp);
 
     //SI SQL OK, MOSTRAMOS EXITO EDITAR CASA
-    if($resultado_edit_casa==1)
+    if($resultado12==1)
       { ?>
 
     <!--MODAL EXITO EDITAR CASA-->
@@ -267,7 +230,7 @@ if(isset($_POST['submit']))
 
     } else{ ?>
 
-    <!--MODAL ERROR ALTA CASA-->
+    <!--MODAL ERROR EDITAR EXPERIENCIA-->
         <div class="modal fade" id="mostrarmodal" tabindex="-1" role="dialog" aria-labelledby="basicModal" aria-hidden="true">
           <div class="modal-dialog">
             <div class="modal-content">
@@ -281,7 +244,7 @@ if(isset($_POST['submit']))
                   
            </div>
                <div class="modal-footer">
-              <a href="buscarcasaedit.php" data-dismiss="modal" class="btn btn-danger">Cerrar</a>
+              <a href="#" data-dismiss="modal" class="btn btn-danger">Cerrar</a>
                </div>
           </div>
           </div>

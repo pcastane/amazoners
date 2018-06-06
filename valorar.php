@@ -27,7 +27,6 @@
     require_once('conectarbd.php');
     //OBTENGO EL NOMBRE POR GET, SI VIENE DEL LISTADO O VIENE DEL BUSCADOR EN VALORAR
     $nombre_seleccionado=$_GET['casa'];      
-    echo $nombre_casa;
 
 ?>
 

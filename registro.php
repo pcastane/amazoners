@@ -24,6 +24,9 @@
 <!--CARGO EL HEADER-->
 <?php
     require_once('header.php');
+    //DESTRUIMOS CUALQUIER SESION PREVIA QUE PUDIERA HABER
+    session_start();
+    session_destroy();
 ?>
 
 <!--FORMULARIO DE REGISTRO DE USUAIO-->
@@ -76,8 +79,8 @@ if(isset($_POST['submit']))
 
     require_once('conectarbd.php');
     
-    //COMPRUEBO QUE EL USUARIO NO ESTÉ DADO DE ALTA YA:
-      $sql_verif="SELECT * FROM usuario WHERE usuario = '$usuario'";
+    //COMPRUEBO QUE EL USUARIO NO ESTÉ DADO DE ALTA YA DE ENTRE LOS QUE ESTÁN ACTIVOS:
+      $sql_verif="SELECT * FROM usuario WHERE usuario = '$usuario' AND activo=1";
       $q = mysqli_query($conectar,$sql_verif);
          //verificamos si el user exite con un condicional
          if( mysqli_num_rows($q) != 0)  // si ha encontrado algún registro que coincida, significa usuario ya UTILIZADO

@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    <title>Editar Perfil</title>
+    <title>Editar Perfil Admin</title>
     <link rel="shortcut icon" type="image/png" href="./favicon.png">
 
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
@@ -29,11 +29,12 @@
 
     require_once('conectarbd.php');
 
-      //obtengo el nombre del usuario de session
-      $usuario=$_SESSION['nombre_usuario'];
+      //obtengo el nombre del usuario por url
+      $usuario= $_GET['user'];
+      //echo $usuario;
 
     //SELECCIONO LOS DATOS DEL USUARIO:
-    $sql="SELECT * FROM usuario WHERE usuario='$usuario'";
+    $sql="SELECT * FROM usuario WHERE nombre='$usuario'";
 
     //LANZO LA SQL
     $resultado=mysqli_query($conectar,$sql);
@@ -49,7 +50,7 @@
     <section>
 
             <div class="signup-form">
-                    <form action="editarperfil.php" method="POST">
+                    <form action="" method="POST">
                         <h2>Editar</h2>
                         <p class="hint-text">Guarda de nuevo tus datos</p>
                         <div class="form-group">
@@ -101,8 +102,8 @@ if(isset($_POST['submit']))
 
     //SI SQL OK, MOSTRAMOS EXITO
     if($resultado)
-      { //GUARDO EN SESSIONS EL NOMBRE DEL USUARIO
-        $_SESSION['nombre_usuario']=$usuario; 
+      { 
+
         ?>
 <!--MODAL EXITO GAURDAR DATOS-->
     <div class="modal fade" id="mostrarmodal" tabindex="-1" role="dialog" aria-labelledby="basicModal" aria-hidden="true">

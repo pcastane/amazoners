@@ -24,6 +24,9 @@
 <!--CARGO EL HEADER-->
 <?php
     require_once('header.php');
+    //DESTRUIMOS CUALQUIER SESION PREVIA QUE PUDIERA HABER
+    session_start();
+    session_destroy();
 ?>
 
 <!--FORMULARIO DE LOGIN-->    

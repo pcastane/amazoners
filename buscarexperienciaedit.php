@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    <title>Buscar Casa</title>
+    <title>Buscar Experiencia</title>
     <link rel="shortcut icon" type="image/png" href="./favicon.png">
 
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
@@ -28,13 +28,13 @@
 ?>
 <div class="row">
   <div class="col-md-6">
-      <form action="buscarcasaedit.php" method="POST">
+      <form action="buscarexperienciaedit.php" method="POST">
             <div class="form-group">
-              <label class="control-label" for="textinput"><h4><font color="white">Nombre de la Casa a editar (o parte del nombre):</font></h4></label>  
+              <label class="control-label" for="textinput"><h4><font color="white">Nombre de la Experiencia a editar (o parte del nombre):</font></h4></label>  
                 <input id="textinput" name="nombre_prod" type="text" class="form-control input-md"><br>
                 <div class="col-md-4">
                  
-                    <button type="submit" name="submit" class="btn btn-success btn-lg btn-block">BUSCAR CASA</button>
+                    <button type="submit" name="submit" class="btn btn-success btn-lg btn-block">BUSCAR EXP</button>
                 
                 </div>              
             </div>
@@ -47,25 +47,25 @@
 if(isset($_POST['submit']))
 {
     $nombre_prod=$_POST['nombre_prod'];
-    $sql_casa="SELECT * FROM producto WHERE ((nombre_producto LIKE '%{$nombre_prod}%') AND (id_tipo_prod = 1) AND borrado=0)";
+    $sql_exp="SELECT * FROM producto WHERE ((nombre_producto LIKE '%{$nombre_prod}%') AND (id_tipo_prod = 2) AND borrado=0)";
     //CONTAINS(nombre_producto,'$nombre_producto')";
     //
-    $resultado_buscar=mysqli_query($conectar,$sql_casa);
+    $resultado_buscar=mysqli_query($conectar,$sql_exp);
     
-    echo '<h4><font color="white">Selecciona la casa a editar:</font></h4><br>';
+    echo '<h4><font color="white">Selecciona la experiencia a editar:</font></h4><br>';
     while ($resultado_buscar2=mysqli_fetch_array($resultado_buscar,MYSQLI_BOTH)) {
 
       echo '
-      <form action="editarcasa.php" method="POST">
+      <form action="editarexperiencia.php" method="POST">
       
         <table> <form>
           <tr>
             <td>
-              <input type="text" name="casa" value="'.$resultado_buscar2['nombre_producto'].'" style="visibility:hidden"> 
+              <input type="text" name="experiencia_seleccionada" value="'.$resultado_buscar2['nombre_producto'].'" style="visibility:hidden"> 
               <h4><font color="white">'.$resultado_buscar2['nombre_producto'].'</font></h4>
             </td>
             <td>
-            <button type="submit" class="btn btn-success btn-lg btn-block">EDITAR ESTA CASA</button></td> <br>
+            <button type="submit" class="btn btn-success btn-lg btn-block">EDITAR ESTA EXPERIENCIA</button></td> <br>
           </tr>
         </form>
         </table>

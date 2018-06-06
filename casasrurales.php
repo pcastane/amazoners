@@ -29,9 +29,9 @@
 require_once('header.php');
 require_once('conectarbd.php');
 
-//OBTENEMOS LOS DATOS DE LAS CASAS RURALES, ORDENANDOLAS POR RANKING DE PUNTUACIONES
+//OBTENEMOS LOS DATOS DE LAS CASAS RURALES, ORDENANDOLAS POR RANKING DE PUNTUACIONES, SIEMPRE QUE NO ESTEN BORRADAS
 
-$sql_mostrar_casas="SELECT * FROM producto WHERE id_tipo_prod = 1 ORDER BY ranking DESC";
+$sql_mostrar_casas="SELECT * FROM producto WHERE ((id_tipo_prod = 1) AND (borrado=0)) ORDER BY ranking DESC";
 $resultado_mostrar_casas=mysqli_query($conectar,$sql_mostrar_casas);
     
     echo '<h4><font color="white">Casas rurales: </font></h4>(Ordenadas por ranking de valoraciones)<br>';
@@ -62,8 +62,10 @@ $resultado_mostrar_casas=mysqli_query($conectar,$sql_mostrar_casas);
                 </td>
                 <td><font color="white">
                   <p>Dirección: '.$resultado_mostrar['direccion'].'</p>
+                  <p>Teléfono: '.$resultado_mostrar['telefono'].'</p>
                   <p>Número de habitaciones: '.$resultado_mostrar['num_habitaciones'].'</p>
                   <p>Precio por noche: '.$resultado_mostrar['precio'].'€</p></font>
+                  <p>Abierta: '.(($resultado_mostrar["activo"]==1)?"SI":"NO").'</p></font>
 
                 </td>
 
@@ -84,9 +86,16 @@ $resultado_mostrar_casas=mysqli_query($conectar,$sql_mostrar_casas);
                    <button type="submit" class="btn btn-success btn-lg btn-block">
                    <a href="ver_valoraciones.php?casa='.$resultado_mostrar['nombre_producto'].'">VER VALORACIONES</button> <br>
                 </td>
-                <td><!--PASAMOS LA VARIABE POR GET-->
+                <td><!--SI HAY USUARIO LOGUEADO, MOSTRAMOS VALORAR CASA, SINO SOLO MOSTRAMOS VER VALORACIONES-->';
+
+                if(isset($_SESSION['nombre_usuario']))
+                  {
+
+                echo '
                    <button type="submit" class="btn btn-success btn-lg btn-block">
-                   <a href="valorar.php?casa='.$resultado_mostrar['nombre_producto'].'">VALORAR ESTA CASA</a></button> <br>
+                   <a href="valorar.php?casa='.$resultado_mostrar['nombre_producto'].'">VALORAR ESTA CASA</a></button> <br>';
+                  }
+                  echo '
                 </td>
               </tr>
              </form>

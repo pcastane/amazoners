@@ -46,6 +46,11 @@
       </div>
 
       <div class="form-group">
+        <label class="control-label" for="textinput">Teléfono:</label>  
+        <input id="textinput" name="telefono" type="text" class="form-control input-md">
+      </div>
+
+      <div class="form-group">
         <label class="control-label" for="textinput">Número de habitaciones:</label>  
         <input id="textinput" name="num_habitaciones" type="text" class="form-control input-md">  
       </div>
@@ -167,6 +172,7 @@ if(isset($_POST['submit']))
     //asignamos variables que vienen del formulario
     $nombre_producto=$_POST['nombre_producto'];
     $direccion=$_POST['direccion'];
+    $telefono=$_POST['telefono'];
     $num_habitaciones=$_POST['num_habitaciones'];
     $precio=$_POST['precio'];
     $categoria=$_POST['categoria'];
@@ -177,12 +183,10 @@ if(isset($_POST['submit']))
     $mascotas=$_POST['mascotas'];
 
     //ASIGNO EL NOMBRE DE LA CATEGORÍA SEGÚN EL VALUE OBTENIDO DEL FORMULARIO
-    if($categoria==1)
-    {
-      $nombre_categoria='Precio Alto';
-    }else{
-          if($categoria==2){$nombre_categoria='Precio Medio';}else{$nombre_categoria='Low Cost';}
-         }
+    if($categoria==1){$nombre_categoria='Precio Alto';}
+    elseif($categoria==2){$nombre_categoria='Precio Medio';}
+    else{$nombre_categoria='Low Cost';}
+         
      // ****PRIMERO DE TODO MIRO SI YA HAY ALGUNA CASA CON ESTE NOMBRE, SI LA HAY ERROR->YA ESTA DADA DE ALTA****
 
       $sql_verif="SELECT * FROM producto WHERE nombre_producto = '$nombre_producto'";
@@ -224,8 +228,8 @@ if(isset($_POST['submit']))
     $resultado_categoria=mysqli_query($conectar,$sql_categoria);
 
     //SEGUNDO GUARDO LA CASA EN TABLA **PRODUCTO**
-    $sql="INSERT INTO producto (id_producto,id_tipo_prod,id_tipo_cat,nombre_producto,direccion,num_habitaciones,precio,comidas,piscina,wifi,parking,mascotas,duracion,edad_min) 
-    VALUES (NULL,1,1,'$nombre_producto','$direccion','$num_habitaciones','$precio','$comidas','$piscina','$wifi','$parking','$mascotas',0,0)";
+    $sql="INSERT INTO producto (id_producto,id_tipo_prod,id_tipo_cat,nombre_producto,direccion,telefono,num_habitaciones,precio,comidas,piscina,wifi,parking,mascotas,duracion,edad_min) 
+    VALUES (NULL,1,'$categoria','$nombre_producto','$direccion','$telefono',$num_habitaciones','$precio','$comidas','$piscina','$wifi','$parking','$mascotas',0,0)";
 
     //LANZO LA SQL
     $resultado_guardar_casa=mysqli_query($conectar,$sql);

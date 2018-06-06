@@ -41,7 +41,7 @@
 </h3>
 
 <a href="buscarcasaedit.php" class="btn-success btn">Una Casa Rural</a>&nbsp
-<a href="editarexperiencia.php" class="btn-success btn">Una Experiencia</a>
+<a href="buscarexperienciaedit.php" class="btn-success btn">Una Experiencia</a>
 </center>
 
     <!-- el footer -->
