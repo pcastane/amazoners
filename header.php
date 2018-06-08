@@ -41,7 +41,8 @@
         if($admin==1){ ?> <a href="menuadmin.php" class="btn-success btn">Menú ADMIN</a>&nbsp <?php }
         ?>
         <a href="buscarvalorar.php" class="btn-success btn">Valorar</a>&nbsp
-        <a href="nuevo.php" class="btn-success btn">Mis Productos</a>&nbsp
+        <a href="nuevo.php" class="btn-success btn">Productos</a>&nbsp
+        <a href="nuevacategoria.php" class="btn-success btn">Categorías</a>&nbsp
         <a href="editarperfil.php" class="btn-success btn">Editar perfil</a>&nbsp
         <a href="logout.php" class="btn-danger btn">Logout</a>
       </div>
@@ -74,8 +75,8 @@
             </div>
           </li>
         </ul>
-        <a href="registro.php" class="navbar-btn btn-success btn pull-right">Alta Usuario</a>&nbsp
-        <a href="login.php" class="navbar-btn btn-success btn pull-right">Login</a>
+        <a href="registro_.php" class="navbar-btn btn-success btn pull-right">Alta Usuario</a>&nbsp
+        <a href="login_.php" class="navbar-btn btn-success btn pull-right">Login</a>
       </div>
     </nav>
 

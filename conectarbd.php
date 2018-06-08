@@ -1,7 +1,7 @@
 <?php 
 
     //arrancamos sessions
-    session_start();
+    @session_start();
     
     //conecto con la BD
     $conectar=@mysqli_connect('localhost','root','') 

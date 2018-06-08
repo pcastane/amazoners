@@ -29,6 +29,8 @@
 require_once('header.php');
 require_once('conectarbd.php');
 
+
+
 //OBTENEMOS LOS DATOS DE LAS CASAS RURALES, ORDENANDOLAS POR RANKING DE PUNTUACIONES, SIEMPRE QUE NO ESTEN BORRADAS
 
 $sql_mostrar_casas="SELECT * FROM producto WHERE ((id_tipo_prod = 1) AND (borrado=0)) ORDER BY ranking DESC";
@@ -57,8 +59,31 @@ $resultado_mostrar_casas=mysqli_query($conectar,$sql_mostrar_casas);
       
                 <td>
                   <input type="text" name="casa_seleccionada" value="'.$resultado_mostrar['nombre_producto'].'" style="visibility:hidden"> 
-                  <h4><font color="white">'.$resultado_mostrar['nombre_producto'].'</font></h4>
+                  <h4><font color="white">'.$resultado_mostrar['nombre_producto'].'</font></h4><br>';
+                    
+                        //OBTENGO EL id_producto
+                        $id_casa_valoraciones=$resultado_mostrar['id_producto'];
 
+                        //VALORACIÓN MEDIA DEL PRODUCTO - CON AVG SACO EL PROMEDIO DE TODAS LAS ESTRELLAS DE LAS VALORACIONES DEL MISMO PRODUCTO:
+                        $usuario_valora=$_SESSION['nombre_usuario'];
+                        $sql_val="SELECT AVG(estrellas) AS valoracion_media FROM valora 
+                                  WHERE id_producto_valora='$id_casa_valoraciones'";    
+                        $res15=mysqli_query($conectar,$sql_val);
+                    while($res150=mysqli_fetch_array($res15,MYSQLI_BOTH))
+                      {
+                           echo '<h5>Valoración media de la casa:</h5>';
+                                        //PINTAMOS LAS ESTRELLAS DE COLORES DE LA MEDIA CON UN BUCLE FOR
+
+                                for($i=1;$i<6;$i++)
+                                  {
+                                    if($i<=$res150['valoracion_media']){echo'<img src="img/star.png" width=30>';}
+                                    else{echo'<img src="img/starb.png" width=30>';}
+
+                                  }
+                          
+                      }
+
+               echo '
                 </td>
                 <td><font color="white">
                   <p>Dirección: '.$resultado_mostrar['direccion'].'</p>
@@ -80,7 +105,17 @@ $resultado_mostrar_casas=mysqli_query($conectar,$sql_mostrar_casas);
               </tr>
               <tr>
 
-                <td>
+                <td>';
+                //  OBTENEMOS LA RUTA DE LA FOTO, SI LA TIENE
+                $sql_foto="SELECT * FROM imagenes WHERE id_producto_img='$id_casa_valoraciones'";
+                $res_foto=mysqli_query($conectar,$sql_foto);
+                while ($res_foto2=mysqli_fetch_array($res_foto,MYSQLI_BOTH)) 
+                {
+                  echo'<img src="'.$res_foto2["url_imagen"].'" width="250" border="4" ><br>';
+                }
+                
+
+                echo '
                 </td>
                 <td><!--PASAMOS LA VARIABE POR GET-->
                    <button type="submit" class="btn btn-success btn-lg btn-block">

@@ -75,18 +75,29 @@
             <input id="textinput" name="edad_min" type="text" class="form-control input-md">
           </div>
 
-          <div class="form-group">
+      <div class="form-group">
             Categoría:
-            <select name="categoria">
-                <option value="4">Deportiva</option>
-                <option value="5">Familiar</option>
-                <option value="6">Individual</option>
-                <option value="7">En grupo</option>
-            </select>
+
+                <?php //OBTENGO LAS CATEGORÍAS VIGENTES PARA EXPERIENCIAS Y DARLAS A ELEGIR
+                  $sql_categorias="SELECT * FROM categoria WHERE id_tipo_prod=2";
+                  $res_cat=mysqli_query($conectar,$sql_categorias);
+                  
+                  print_r($res_categoria);
+
+                echo '
+                <select name="categoria">'; //IMPRIMO EL RESULTADO DE LA SQL EN UN SELECT
+                while ($res_categoria=mysqli_fetch_array($res_cat,MYSQLI_ASSOC)) 
+                {
+                  echo '<option value="'.$res_categoria['id_categoria'].'">'.$res_categoria['nombre_categoria'].'</option>';
+                }
+                    
+            
+          ?>
+          </select>
           </div>       
 
           <label for="adjuntar archivo">Adjuntar foto 1:</label>
-          <input type='file' name='foto2' id='foto' placeholder="Sube una foto"><br><br>
+          <input type='file' name='imagen' id='imagen' placeholder="Sube una foto"><br><br>
       <button type="submit" name="submit" class="btn btn-success btn-lg btn-block">GUARDAR DATOS</button>
         </div>
         
@@ -104,42 +115,27 @@ if(isset($_POST['submit']))
     require_once('conectarbd.php');
 
     //GUARDO LA FOTO EN CARPETA IMG
-/*
-  if(isset($_POST['foto1']))
-    {    //Tamaño y Formatos permitidos
+    //GUARDO LA FOTO EN CARPETA /img/
 
-        if ((($_FILES["foto1"]["type"] == "image/gif")
-        || ($_FILES["foto1"]["type"] == "image/jpeg")
-        || ($_FILES["foto1"]["type"] == "image/jpg")
-        || ($_FILES["foto1"]["type"] == "image/JPG")
-        || ($_FILES["foto1"]["type"] == "image/png"))
-        && ($_FILES["foto1"]["size"] < 1000000)) 
-        { 
-            echo "Return Code: " . $_FILES["foto1"]["error"] . " ";
-            echo "Archivo invalido, Solamente archivos GIF, JPG y PNG son permitidos";
-        }
-            else
-            {
+    $nombre_foto = $_FILES['imagen']['name'];
+    $nombrer_foto = strtolower($nombre_foto);
+    $cd=$_FILES['imagen']['tmp_name'];
+    $ruta = "img/" . $_FILES['imagen']['name'];
+    $destino = "img/".$nombrer_foto;
+    $resultado_foto = @move_uploaded_file($_FILES["imagen"]["tmp_name"], $ruta);
 
-               //Verifica si el archivo existe
-
-              if (file_exists("img/" . $_FILES["foto1"]["name"]))
-                {
-                echo $_FILES["foto1"]["name"] . " already exists. ";
-                }
-                  else
-                    {   
-
-                      move_uploaded_file($_FILES["foto1"]["tmp_name"], "img/" . $_FILES["foto1"]["name"]);
-
-                      echo "Almacenado en: " . "img/" . $_FILES["foto1"]["name"];
-
-                      $nombreArchivo = $_FILES["foto1"]["name"];
-
-                    }
-            }                
+    //OBTENGO EL VALOR DEL ID DEL PRODUCTO ÚLTIMO GRABADO Y LE SUMO 1, YA QUE ES EL QUE LE VA A ASIGNAR A ESTE PRODUCTO
+    $rs = mysqli_query($conectar,"SELECT MAX(id_producto) AS id FROM producto");
+    if ($row = mysqli_fetch_row($rs)) {
+    $id = intval(trim($row[0]));
+    $id++;
+    //echo $id.' id foto '.$destino.' destino '.$resultado_foto;
     }
-  */
+    //GUARDO EN LA TABLA IMAGENES EL NOMBRE Y LA RUTA DE LA FOTO
+    if ($resultado_foto)
+    {
+            @mysqli_query($conectar,"INSERT INTO imagenes (id_imagen,url_imagen,id_producto_img) VALUES (NULL,'$destino','$id')");       
+    }
 
     //asignamos variables que vienen del formulario
 
@@ -152,11 +148,11 @@ if(isset($_POST['submit']))
     $duracion=$_POST['duracion'];
     $edad_min=$_POST['edad_min'];
 
-    //ASIGNO EL NOMBRE DE LA CATEGORÍA SEGÚN EL VALUE OBTENIDO DEL FORMULARIO
+    /*//ASIGNO EL NOMBRE DE LA CATEGORÍA SEGÚN EL VALUE OBTENIDO DEL FORMULARIO
     if($categoria==4){$nombre_categoria='Deportiva';} 
     elseif($categoria==5){$nombre_categoria='Familiar';}
     elseif($categoria==6){$nombre_categoria='Individual';}
-    else{$nombre_categoria='En grupo';}
+    else{$nombre_categoria='En grupo';}*/
          
      // ****PRIMERO DE TODO MIRO SI YA HAY ALGUNA EPERIENCIA CON ESTE NOMBRE, SI LA HAY ERROR->YA ESTA DADA DE ALTA****
 
@@ -192,17 +188,10 @@ if(isset($_POST['submit']))
    {
 
     //EXPERIENCIA NO EXISTE-> PROCEDO CON EL ALTA-> 
-    //GUARDO LOS DATOS EN LA BD
-    //PRIMERO GUARDO LA CATEGORÍA DE LA CASA EN TABLA **CATEGORIA PRODUCTO**
 
-    $sql_categoria="INSERT INTO categoria (id_categoria, id_tipo_prod, nombre_categoria) 
-    VALUES ('$categoria',2,'$nombre_categoria')";
-
-    $resultado_categoria=mysqli_query($conectar,$sql_categoria);
-
-    //SEGUNDO GUARDO LA EXPERIENCIA EN TABLA **PRODUCTO**
-    $sql_exp="INSERT INTO producto (id_producto,id_tipo_prod,id_tipo_cat,nombre_producto,direccion,telefono,precio,parking,duracion,edad_min) 
-    VALUES (NULL,2,'$categoria','$nombre_producto','$direccion','$telefono',$precio','$parking','$duracion','$edad_min')";
+    //GUARDO LA EXPERIENCIA EN TABLA **PRODUCTO**
+    $sql_exp="INSERT INTO producto (id_producto,id_tipo_prod,id_tipo_cat,nombre_producto,direccion,telefono,precio,parking,duracion,edad_min,activo,ranking,borrado) 
+    VALUES (NULL,2,'$categoria','$nombre_producto','$direccion','$telefono','$precio','$parking','$duracion','$edad_min',1,0,0)";
 
     //LANZO LA SQL
     $resultado_guardar_exp=mysqli_query($conectar,$sql_exp);

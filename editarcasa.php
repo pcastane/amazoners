@@ -70,7 +70,7 @@ echo '
 
     <!--PARA RELLENAR LOS SELECTS CON LOS VALORES DE LA BD, HE SUDADO SANGRE-->
 
-      <div class="form-group">
+      <!--<div class="form-group">
         Categoría:
         <select name="categoria">
             <option value="1">Precio Alto</option>
@@ -78,7 +78,7 @@ echo '
             <option value="3">Low Cost</option>
 
         </select>
-      </div>
+      </div>-->
     </div>
 
         <div class="col-md-4">
@@ -132,8 +132,8 @@ echo '
            </select>
           </div>
 
-                <label for="adjuntar archivo">Adjuntar foto 1:</label>
-                <input type="file" name="foto1" id="foto" placeholder="Sube una foto"><br><br>
+                <label for="adjuntar archivo">Añadir foto:</label>
+                <input type="file" name="imagen" id="imagen" placeholder="Sube una foto"><br><br>
        <button type="submit" name="submit" class="btn btn-success btn-lg btn-block">GUARDAR DATOS</button>
         </div>
        
@@ -151,43 +151,24 @@ if(isset($_POST['submit']))
 
 
 
-    //GUARDO LA FOTO EN CARPETA IMG
-/*
-  if(isset($_POST['foto1']))
-    {    //Tamaño y Formatos permitidos
+    $id_producto=$_POST['id_producto'];
+    //GUARDO LA FOTO EN CARPETA /img/
 
-        if ((($_FILES["foto1"]["type"] == "image/gif")
-        || ($_FILES["foto1"]["type"] == "image/jpeg")
-        || ($_FILES["foto1"]["type"] == "image/jpg")
-        || ($_FILES["foto1"]["type"] == "image/JPG")
-        || ($_FILES["foto1"]["type"] == "image/png"))
-        && ($_FILES["foto1"]["size"] < 1000000)) 
-        { 
-            echo "Return Code: " . $_FILES["foto1"]["error"] . " ";
-            echo "Archivo invalido, Solamente archivos GIF, JPG y PNG son permitidos";
-        }
-            else
-            {
+    $nombre_foto = $_FILES['imagen']['name'];
+    $nombrer_foto = strtolower($nombre_foto);
+    $cd=$_FILES['imagen']['tmp_name'];
+    $ruta = "img/" . $_FILES['imagen']['name'];
+    $destino = "img/".$nombrer_foto;
+    $resultado_foto = @move_uploaded_file($_FILES["imagen"]["tmp_name"], $ruta);
 
-               //Verifica si el archivo existe
+    $id=intval($id_producto);
 
-              if (file_exists("img/" . $_FILES["foto1"]["name"]))
-                {
-                echo $_FILES["foto1"]["name"] . " already exists. ";
-                }
-                  else
-                    {   
-
-                      move_uploaded_file($_FILES["foto1"]["tmp_name"], "img/" . $_FILES["foto1"]["name"]);
-
-                      echo "Almacenado en: " . "img/" . $_FILES["foto1"]["name"];
-
-                      $nombreArchivo = $_FILES["foto1"]["name"];
-
-                    }
-            }                
+    
+    //GUARDO EN LA TABLA IMAGENES EL NOMBRE Y LA RUTA DE LA FOTO
+    if ($resultado_foto)
+    {
+            @mysqli_query($conectar,"INSERT INTO imagenes (id_imagen,url_imagen,id_producto_img) VALUES (NULL,'$destino','$id')");       
     }
-  */
 
     //asignamos variables que vienen del formulario
     $id_producto=$_POST['id_producto'];

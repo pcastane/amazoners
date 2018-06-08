@@ -68,8 +68,8 @@ echo '
       <div class="form-group">
         Tiene Parking:
         <select name="parking">
-            <option value="'.(($res11["parking"]==1)?1:0).'" selected>'.(($res11["parking"]==1)?'SI':'NO').'</option>
-            <option value="'.(($res11["parking"]==1)?0:1).'">'.(($res11["parking"]==1)?'NO':'SI').'</option>
+            <option value="'.(($res110["parking"]==1)?1:0).'" selected>'.(($res110["parking"]==1)?'SI':'NO').'</option>
+            <option value="'.(($res110["parking"]==1)?0:1).'">'.(($res110["parking"]==1)?'NO':'SI').'</option>
         </select>
       </div>
 
@@ -88,8 +88,16 @@ echo '
         <label class="control-label" for="textinput">Edad mínima:</label>  
         <input id="textinput" name="edad_min" type="text" value="'.$res110["edad_min"].'" class="form-control input-md">  
       </div>
-    
+  
       <div class="form-group">
+        <b>NEGOCIO ABIERTO?:</b>
+        <select name="activo">
+            <option value="'.(($res110["activo"]==1)?1:0).'" selected>'.(($res110["activo"]==1)?'SI':'NO').'</option>
+            <option value="'.(($res110["activo"]==1)?0:1).'">'.(($res110["activo"]==1)?'NO':'SI').'</option>
+       </select>
+      </div>
+
+     <!-- <div class="form-group">
         Categoría:
         <select name="categoria">
             <option value="1">Deportiva</option>
@@ -98,7 +106,12 @@ echo '
             <option value="4">En grupo</option>
 
         </select>
-      </div>
+      </div>-->
+
+
+                <label for="adjuntar archivo">Añadir foto:</label>
+                <input type="file" name="imagen" id="imagen" placeholder="Sube una foto"><br><br>
+
       <button type="submit" name="submit" class="btn btn-success btn-lg btn-block">GUARDAR DATOS</button>
 
 
@@ -113,43 +126,24 @@ echo '
 if(isset($_POST['submit']))
 {
 
-    //GUARDO LA FOTO EN CARPETA IMG
-/*
-  if(isset($_POST['foto1']))
-    {    //Tamaño y Formatos permitidos
+     $id_producto=$_POST['id_producto'];
+    //GUARDO LA FOTO EN CARPETA /img/
 
-        if ((($_FILES["foto1"]["type"] == "image/gif")
-        || ($_FILES["foto1"]["type"] == "image/jpeg")
-        || ($_FILES["foto1"]["type"] == "image/jpg")
-        || ($_FILES["foto1"]["type"] == "image/JPG")
-        || ($_FILES["foto1"]["type"] == "image/png"))
-        && ($_FILES["foto1"]["size"] < 1000000)) 
-        { 
-            echo "Return Code: " . $_FILES["foto1"]["error"] . " ";
-            echo "Archivo invalido, Solamente archivos GIF, JPG y PNG son permitidos";
-        }
-            else
-            {
+    $nombre_foto = $_FILES['imagen']['name'];
+    $nombrer_foto = strtolower($nombre_foto);
+    $cd=$_FILES['imagen']['tmp_name'];
+    $ruta = "img/" . $_FILES['imagen']['name'];
+    $destino = "img/".$nombrer_foto;
+    $resultado_foto = @move_uploaded_file($_FILES["imagen"]["tmp_name"], $ruta);
 
-               //Verifica si el archivo existe
+    $id=intval($id_producto);
 
-              if (file_exists("img/" . $_FILES["foto1"]["name"]))
-                {
-                echo $_FILES["foto1"]["name"] . " already exists. ";
-                }
-                  else
-                    {   
-
-                      move_uploaded_file($_FILES["foto1"]["tmp_name"], "img/" . $_FILES["foto1"]["name"]);
-
-                      echo "Almacenado en: " . "img/" . $_FILES["foto1"]["name"];
-
-                      $nombreArchivo = $_FILES["foto1"]["name"];
-
-                    }
-            }                
+    
+    //GUARDO EN LA TABLA IMAGENES EL NOMBRE Y LA RUTA DE LA FOTO
+    if ($resultado_foto)
+    {
+            @mysqli_query($conectar,"INSERT INTO imagenes (id_imagen,url_imagen,id_producto_img) VALUES (NULL,'$destino','$id')");       
     }
-  */
 
     //asignamos variables que vienen del formulario
     //$nombre_producto=$_POST['nombre_producto'];
@@ -164,6 +158,7 @@ if(isset($_POST['submit']))
     $duracion=$_POST['duracion'];
     $edad_min=$_POST['edad_min'];
     $activo=$_POST['activo'];
+    echo $activo;
 
 
 
@@ -244,7 +239,7 @@ if(isset($_POST['submit']))
                   
            </div>
                <div class="modal-footer">
-              <a href="#" data-dismiss="modal" class="btn btn-danger">Cerrar</a>
+              <a href="buscarexperienciaedit.php" data-dismiss="modal" class="btn btn-danger">Cerrar</a>
                </div>
           </div>
           </div>

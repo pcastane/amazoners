@@ -35,7 +35,8 @@ $sql_mostrar_experiencias="SELECT * FROM producto WHERE ((id_tipo_prod = 2) AND 
 $resultado_mostrar_experiencias=mysqli_query($conectar,$sql_mostrar_experiencias);
     
     echo '<h4><font color="white">Experiencias: </font></h4>(Ordenadas por ranking de valoraciones)<br>';
-    while ($resultado_mostrar=mysqli_fetch_array($resultado_mostrar_experiencias,MYSQLI_BOTH)) {
+    while ($resultado_mostrar=mysqli_fetch_array($resultado_mostrar_experiencias,MYSQLI_BOTH)) 
+    {
 
       echo '
       <div class="container">
@@ -57,7 +58,31 @@ $resultado_mostrar_experiencias=mysqli_query($conectar,$sql_mostrar_experiencias
       
                 <td>
                   <input type="text" name="casa_seleccionada" value="'.$resultado_mostrar['nombre_producto'].'" style="visibility:hidden"> 
-                  <h4><font color="white">'.$resultado_mostrar['nombre_producto'].'</font></h4>
+                  <h4><font color="white">'.$resultado_mostrar['nombre_producto'].'</font></h4>';
+                    
+                        //OBTENGO EL id_producto
+                        $id_exp_valoraciones=$resultado_mostrar['id_producto'];
+
+                        //VALORACIÓN MEDIA DEL PRODUCTO - CON AVG SACO EL PROMEDIO DE TODAS LAS ESTRELLAS DE LAS VALORACIONES DEL MISMO PRODUCTO:
+                        $usuario_valora=$_SESSION['nombre_usuario'];
+                        $sql_val="SELECT AVG(estrellas) AS valoracion_media FROM valora 
+                                  WHERE id_producto_valora='$id_exp_valoraciones'";    
+                        $res15=mysqli_query($conectar,$sql_val);
+                    while($res150=mysqli_fetch_array($res15,MYSQLI_BOTH))
+                      {
+                           echo '<h5>Valoración media de la experiencia:</h5>';
+                                        //PINTAMOS LAS ESTRELLAS DE COLORES DE LA MEDIA CON UN BUCLE FOR
+
+                                for($i=1;$i<6;$i++)
+                                  {
+                                    if($i<=$res150['valoracion_media']){echo'<img src="img/star.png" width=30>';}
+                                    else{echo'<img src="img/starb.png" width=30>';}
+
+                                  }
+                          
+                      }
+
+               echo '
 
                 </td>
                 <td><font color="white">
@@ -77,7 +102,18 @@ $resultado_mostrar_experiencias=mysqli_query($conectar,$sql_mostrar_experiencias
               </tr>
               <tr>
 
-                <td>
+                <td>';
+
+                //  OBTENEMOS LA RUTA DE LA FOTO, SI LA TIENE
+                $sql_foto="SELECT * FROM imagenes WHERE id_producto_img='$id_exp_valoraciones'";
+                $res_foto=mysqli_query($conectar,$sql_foto);
+                while ($res_foto2=mysqli_fetch_array($res_foto,MYSQLI_BOTH)) 
+                {
+                  echo'<img src="'.$res_foto2["url_imagen"].'" width="250">';
+                }
+                
+                echo '
+
                 </td>
                 <td><!--PASAMOS LA VARIABE POR GET-->
                    <button type="submit" class="btn btn-success btn-lg btn-block">

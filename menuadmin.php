@@ -25,7 +25,7 @@
     require_once('header.php');
     require_once('conectarbd.php');
 ?>
-<!--BUSCO CASA O EXPERIENCIA A DAR DE BAJA-->
+<!--BUSCAR CASA O EXPERIENCIA A DAR DE BAJA-->
 <div class="row">
   <div class="col-md-6">
       <form action="menuadmin.php" method="POST">
@@ -42,7 +42,7 @@
   </div>
 
 
-<!--BUSCO OPINION A DAR DE BAJA-->
+<!--BUSCAR OPINION A DAR DE BAJA-->
 
   <div class="col-md-6">
       <form action="menuadmin.php" method="POST">
@@ -95,7 +95,7 @@ if(isset($_POST['submit']))
 }
 ?>    
 
-<!--BUSCO USUARIO A DAR DE BAJA O A MODIFICAR-->
+<!--BUSCAR USUARIO A DAR DE BAJA O A MODIFICAR-->
 <div class="row">
   <div class="col-md-6">
       <form action="menuadmin.php" method="POST">
@@ -110,12 +110,72 @@ if(isset($_POST['submit']))
             </div>
       </form>
   </div>
+
+<!--BUSCAR CATEGORIA A DAR DE BAJA O A MODIFICAR-->
+ <div class="col-md-6">
+      <form action="menuadmin.php" method="POST">
+            <div class="form-group">
+              <label class="control-label" for="textinput"><h4><font color="white">Nombre de la categoria a ELIMINAR:</font></h4>(o parte del nombre)Click en buscar sin escribir nada para verlas todas</label>  
+                <input id="textinput" name="nombre_categoria" type="text" class="form-control input-md"><br>
+                <div class="col-md-4">
+                 
+                    <button type="submit5" name="submit5" class="btn btn-success btn-lg btn-block">BUSCAR</button>
+                
+                </div>              
+            </div>
+      </form>
+  </div>
+
 </div>
 
 <?php  
 
+//CASO QUE SE SELECCIONE BORRAR CATEGORIAS
+if(isset($_POST['submit5']))
+{   
+    //BUSCO COINCIDENCIAS DE categorias EN LA BD
+    $nombre_cat=$_POST['nombre_categoria'];
+    $sql_cat="SELECT * FROM categoria WHERE (nombre_categoria LIKE '%{$nombre_cat}%')";
+
+    
+    $resultado_buscar_cat=mysqli_query($conectar,$sql_cat);
+    
+    echo '<h4><font color="white">Selecciona la categoría a BORRAR:</font></h4><br>Los productos que pertenezcan a esta categoría quedaran "Sin categoría"';
+
+    while ($resultado_buscar_categoria=mysqli_fetch_array($resultado_buscar_cat,MYSQLI_BOTH)) 
+    {
+
+      echo '
+      <form action="borrarcategoria.php" method="POST">
+      
+        <table border=1> <form>
+          <tr>
+            <td>
+              
+              <input type="text" name="id_categoria_a_borrar" value="'.$resultado_buscar_categoria['id_categoria'].'" style="visibility:hidden"> 
+              <input type="text" name="id_prod_a_borrar" value="'.$resultado_buscar_categoria['id_tipo_prod'].'" style="visibility:hidden"> 
+              <input type="text" name="categoria_a_borrar" value="'.$resultado_buscar_categoria['nombre_categoria'].'" style="visibility:hidden"> 
+
+              <h4><font color="white">'.$resultado_buscar_categoria['nombre_categoria'].'</font></h4>
+            </td>
+            <td>
+
+            
+            <button type="submit8" name="submit8" class="btn btn-success btn-lg btn-block">BORRAR</button></td> <br>
+          </tr>
+        </form>
+        </table>
+ 
+      ';
+    } 
+    
+
+    $desc=mysqli_close($conectar); 
+}
+
+//CASO QUE SE SELECCIONE BORRAR USUARIOS:
 if(isset($_POST['submit2']))
-{   //BUSCO COINCIDENCIAS EN LA BD, SIEMPRE QUE NO ESTEN BORRADAS YA (BORRADO!=1) y NO SEA EL ADMINISTRADOR!!
+{   //BUSCO COINCIDENCIAS DE USUARIOS EN LA BD, SIEMPRE QUE NO ESTEN DESACTIVADOS YA (ACTIVO=1) y NO SEA EL ADMINISTRADOR!!
     $nombre_usuario=$_POST['nombre_usuario'];
     $sql_user="SELECT * FROM usuario WHERE ((nombre LIKE '%{$nombre_usuario}%') AND activo=1 AND admin=0)";
 
@@ -124,7 +184,8 @@ if(isset($_POST['submit2']))
     
     echo '<h4><font color="white">Selecciona el usuario a BORRAR:</font></h4><br>';
 
-    while ($resultado_buscar5=mysqli_fetch_array($resultado_buscar_usuario,MYSQLI_BOTH)) {
+    while ($resultado_buscar5=mysqli_fetch_array($resultado_buscar_usuario,MYSQLI_BOTH)) 
+    {
 
       echo '
       <form action="borrarusuario.php" method="POST">
@@ -138,7 +199,7 @@ if(isset($_POST['submit2']))
             <td>
             <button type="submit" class="btn btn-success btn-lg btn-block">
             <a href="editarperfiladmin.php?user='.$resultado_buscar5['nombre'].'">EDITAR PERFIL</a></button> <br>
-            <button type="submit" name="submit" class="btn btn-success btn-lg btn-block">BORRAR</button></td> <br>
+            <button type="submit" name="submit4" class="btn btn-success btn-lg btn-block">BORRAR</button></td> <br>
           </tr>
         </form>
         </table>

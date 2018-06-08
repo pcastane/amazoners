@@ -35,11 +35,6 @@ require_once('conectarbd.php');
 
     echo '<h2><font color="white">Valoraciones : '.$nombre_casa_valoraciones.'</font></h2>';
 
-
-    echo '<h3>Valoración media:</h3>';
-
-
-
     //OBTENGO EL id_producto
     $sql_producto1="SELECT * FROM producto WHERE nombre_producto='$nombre_casa_valoraciones'";    
     $res5=mysqli_query($conectar,$sql_producto1);
@@ -47,12 +42,33 @@ require_once('conectarbd.php');
     $id_casa_valoraciones=$res52['id_producto'];
     mysqli_free_result($res5);
 
+    //VALORACIÓN MEDIA DEL PRODUCTO - CON AVG SACO EL PROMEDIO DE TODAS LAS ESTRELLAS DE LAS VALORACIONES DEL MISMO PRODUCTO:
+    $usuario_valora=$_SESSION['nombre_usuario'];
+    $sql_val="SELECT AVG(estrellas) AS valoracion_media FROM valora WHERE id_producto_valora='$id_casa_valoraciones'";    
+    $res15=mysqli_query($conectar,$sql_val);
 
+    while($res150=mysqli_fetch_array($res15,MYSQLI_BOTH))
+    {
+         echo '<h3>Valoración media:</h3>';
+                      //PINTAMOS LAS ESTRELLAS DE COLORES DE LA MEDIA CON UN BUCLE FOR
+
+              for($i=1;$i<6;$i++)
+                {
+                  if($i<=$res150['valoracion_media']){echo'<img src="img/star.png" width=30>';}
+                  else{echo'<img src="img/starb.png" width=30>';}
+
+                }
+        
+    }
+
+      //mysqli_free_result($res150);
+
+       
 
 $sql_mostrar_casas="SELECT * FROM valora WHERE id_producto_valora = '$id_casa_valoraciones'";
 $resultado_valoraciones_casa=mysqli_query($conectar,$sql_mostrar_casas);
     
-    echo '<h4><font color="white"></font></h4><br>';
+    echo '<h4><br><font color="white"></font></h4><br>';
     while ($resultado_valoraciones=mysqli_fetch_array($resultado_valoraciones_casa,MYSQLI_BOTH)) 
     {
 
